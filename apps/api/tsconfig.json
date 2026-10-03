@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    // Рантайм и модули
+    "target": "es2024",
+    "module": "nodenext",            // moduleResolution подтянется сам (nodenext)
+    "types": ["node"],               // в TS 7 дефолт [], без этого не будет process, Buffer и т.д.
+
+    // Пути
+    "rootDir": "src",                // дефолт теперь ".", без этого dist/src/...
+    "outDir": "dist",
+
+    // Совместимость с нативным запуском TS в Node
+    "verbatimModuleSyntax": true,    // явные `import type`, ESM/CJS как есть
+    "rewriteRelativeImportExtensions": true, // импорты с .ts → .js при сборке
+
+    // Строгость
+    "strict": true,                  // и так дефолт, но явно лучше
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Прочее
+    "sourceMap": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "environment.d.ts"]
+}
