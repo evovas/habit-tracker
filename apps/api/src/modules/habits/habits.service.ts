@@ -15,11 +15,12 @@ export class HabitsService {
     return {
       ...habit,
       activeDays: habit.activeDays.toSorted((a, b) => a - b),
+      name: habit.name.trim(),
     };
   }
 
   private validateHabit(habit: Habit) {
-    const { activeDays, weekGoal } = habit;
+    const { activeDays, weekGoal, name } = habit;
 
     if (!activeDays.length) {
       throw new ValidationError('activeDays can\'t be empty');
@@ -30,7 +31,11 @@ export class HabitsService {
     }
 
     if (weekGoal > activeDays.length) {
-      throw new ValidationError('weekGoal can\'t be greater then activeDays count');
+      throw new ValidationError('weekGoal can\'t be greater than activeDays count');
+    }
+
+    if (!name) {
+      throw new ValidationError('name can\'t be empty');
     }
   }
 
