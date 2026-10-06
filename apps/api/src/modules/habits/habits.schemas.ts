@@ -1,7 +1,9 @@
 import { Type } from 'typebox';
 
+export const HabitId = Type.String({ format: 'uuid' });
+
 export const HabitSchema = Type.Object({
-  id: Type.String({ format: 'uuid' }),
+  id: HabitId,
   name: Type.String({ minLength: 1, maxLength: 120 }),
   activeDays: Type.Array(
     Type.Integer({ minimum: 1, maximum: 7 }),
@@ -25,5 +27,5 @@ export const UpdateHabitBodySchema = Type.Partial(
 );
 
 export const IdParamsSchema = Type.Object({
-  id: HabitSchema.properties.id,
+  id: HabitId,
 });

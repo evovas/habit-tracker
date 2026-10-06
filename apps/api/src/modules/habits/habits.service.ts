@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
 import { NotFoundError, ValidationError } from '../../shared/errors.ts';
+import type { CheckinsRepository } from '../checkins/checkins.repository.ts';
 import type { HabitsRepository } from './habits.repository.ts';
 import type { CreateHabitInput, Habit, UpdateHabitInput } from './habits.types.ts';
 
@@ -9,7 +10,10 @@ export class HabitsService {
   // constructor(habits: HabitsRepository) {
   //   this.habits = habits;
   // }
-  constructor(private readonly habits: HabitsRepository) {}
+  constructor(
+    private readonly habits: HabitsRepository,
+    private readonly checkins: CheckinsRepository,
+  ) {}
 
   private normalizeHabit(habit: Habit): Habit {
     return {
@@ -82,9 +86,10 @@ export class HabitsService {
 
   async deleteHabit(id: Habit['id']): Promise<void> {
     const isDeleted = await this.habits.delete(id);
-
     if (!isDeleted) {
       throw new NotFoundError(`Habit with id ${id} not found`);
     }
+
+    await this.checkins.deleteByHabitId(id);
   }
 }

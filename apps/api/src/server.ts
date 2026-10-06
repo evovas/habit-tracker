@@ -31,5 +31,9 @@ const shutdown = async (signal: NodeJS.Signals) => {
   }
 };
 
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);
+process.on('SIGTERM', (signal) => {
+  void shutdown(signal);
+});
+process.on('SIGINT', (signal) => {
+  void shutdown(signal);
+});

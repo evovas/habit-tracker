@@ -21,6 +21,12 @@ export class ValidationError extends AppError {
   }
 }
 
+export class UnprocessableError extends AppError {
+  constructor(message = 'Unprocessable Content Error') {
+    super(message, 422, 'UNPROCESSABLE');
+  }
+}
+
 export class ConflictError extends AppError {
   constructor(message = 'Conflict') {
     super(message, 409, 'CONFLICT');
