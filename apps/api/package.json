@@ -2,13 +2,12 @@
   "name": "back-habbit-tracker",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch --env-file=.env.development ./src/server.ts",
+    "dev": "tsx watch --env-file-if-exists=.env src/server.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "start": "node --enable-source-maps --env-file=.env.production ./dist/server.js",
+    "start": "node --enable-source-maps ./dist/server.js",
     "eslint": "eslint \"src/**/*.ts\"",
     "eslint:fix": "eslint --fix \"src/**/*.ts\"",
     "oxlint": "oxlint --type-aware",
@@ -24,7 +23,6 @@
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "^26.6.3",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "cross-env": "^10.1.0",
     "eslint": "^10.11.0",
     "eslint-plugin-check-file": "^3.3.2",
     "eslint-plugin-oxlint": "^1.86.0",
@@ -41,8 +39,10 @@
     "typescript-eslint": "^8.71.0"
   },
   "dependencies": {
+    "@fastify/cors": "^11.3.0",
     "@fastify/type-provider-typebox": "^6.1.0",
     "dayjs": "^1.11.23",
+    "env-schema": "^8.0.0",
     "fastify": "^5.12.5",
     "fastify-plugin": "^6.0.0",
     "typebox": "^1.3.34"

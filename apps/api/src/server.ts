@@ -1,9 +1,10 @@
 import { buildApp } from './app.ts';
+import { config } from './config/env.ts';
 
-const app = buildApp();
+const app = buildApp(config);
 
-const host = process.env.HOST ?? '0.0.0.0';
-const port = Number(process.env.PORT ?? 3000);
+const host = config.HOST;
+const port = config.PORT;
 
 try {
   await app.listen({ host, port });

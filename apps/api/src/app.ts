@@ -1,5 +1,7 @@
+import { fastifyCors } from '@fastify/cors';
 import Fastify from 'fastify';
 
+import type { Config } from './config/env.ts';
 import { InMemoryCheckinsRepository } from './modules/checkins/checkins.repository.ts';
 import { checkinsRoutes, habitCheckinsRoutes } from './modules/checkins/checkins.routes.ts';
 import { CheckinsService } from './modules/checkins/checkins.service.ts';
@@ -9,23 +11,29 @@ import { HabitsService } from './modules/habits/habits.service.ts';
 import { healthRoutes } from './modules/health/health.routes.ts';
 import { errorHandlerPlugin } from './plugins/error-handler.ts';
 
-const devLoggerConfig = {
-  transport: {
-    target: 'pino-pretty',
-    options: {
-      translateTime: 'HH:MM:ss Z',
-      ignore: 'pid,hostname',
+const loggerConfigByEnv = {
+  development: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname',
+      },
     },
   },
-};
+  production: true,
+  test: false,
+} as const;
 
-const isProduction = process.env.NODE_ENV === 'production';
-
-export const buildApp = () => {
+export const buildApp = (config: Config) => {
   const fastify = Fastify({
-    logger: isProduction ? true : devLoggerConfig,
+    logger: loggerConfigByEnv[config.NODE_ENV],
   });
   fastify.register(errorHandlerPlugin);
+  fastify.register(fastifyCors, {
+    origin: config.CORS_ORIGIN,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  });
   fastify.register(healthRoutes);
 
   const habitsRepository = new InMemoryHabitsRepository();
