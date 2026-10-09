@@ -15,7 +15,13 @@ export const habitsRoutes: FastifyPluginAsyncTypebox<HabitsRoutesOptions>
   ) => {
     fastify.get(
       '/',
-      { schema: { response: { 200: Type.Array(HabitResponseSchema) } } },
+      {
+        schema: {
+          tags: ['habits'],
+          summary: 'Получить список всех привычек',
+          response: { 200: Type.Array(HabitResponseSchema) },
+        },
+      },
       async () => habitsService.getHabitsList(),
     );
 
@@ -23,6 +29,8 @@ export const habitsRoutes: FastifyPluginAsyncTypebox<HabitsRoutesOptions>
       '/:id',
       {
         schema: {
+          tags: ['habits'],
+          summary: 'Получить привычку по id',
           params: IdParamsSchema,
           response: { 200: HabitResponseSchema },
         },
@@ -35,6 +43,8 @@ export const habitsRoutes: FastifyPluginAsyncTypebox<HabitsRoutesOptions>
       '/',
       {
         schema: {
+          tags: ['habits'],
+          summary: 'Создать привычку',
           body: CreateHabitBodySchema,
           response: { 201: HabitResponseSchema },
         },
@@ -50,6 +60,8 @@ export const habitsRoutes: FastifyPluginAsyncTypebox<HabitsRoutesOptions>
       '/:id',
       {
         schema: {
+          tags: ['habits'],
+          summary: 'Изменить привычку',
           params: IdParamsSchema,
           body: UpdateHabitBodySchema,
           response: { 200: HabitResponseSchema },
@@ -61,10 +73,17 @@ export const habitsRoutes: FastifyPluginAsyncTypebox<HabitsRoutesOptions>
 
     fastify.delete(
       '/:id',
-      { schema: { params: IdParamsSchema } },
+      {
+        schema: {
+          tags: ['habits'],
+          summary: 'Удалить привычку',
+          params: IdParamsSchema,
+          response: { 204: Type.Null({ description: 'Удалено' }) },
+        },
+      },
       async (request, reply) => {
         await habitsService.deleteHabit(request.params.id);
-        void reply.code(204).send();
+        void reply.code(204).send(null);
       },
     );
   };

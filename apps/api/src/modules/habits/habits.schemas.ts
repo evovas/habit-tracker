@@ -7,7 +7,11 @@ export const HabitSchema = Type.Object({
   name: Type.String({ minLength: 1, maxLength: 120 }),
   activeDays: Type.Array(
     Type.Integer({ minimum: 1, maximum: 7 }),
-    { minItems: 1, uniqueItems: true },
+    {
+      minItems: 1,
+      uniqueItems: true,
+      description: 'Дни недели по ISO: 1 — понедельник, 7 — воскресенье',
+    },
   ),
   weekGoal: Type.Integer({ minimum: 1, maximum: 7 }),
   createdAt: Type.String({ format: 'date-time' }),

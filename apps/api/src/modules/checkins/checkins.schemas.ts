@@ -12,8 +12,14 @@ export const CheckinListResponseSchema = Type.Array(CheckinSingleEntrySchema);
 
 export const CheckinStatisticsSchema = Type.Array(Type.Object({
   habitId: HabitId,
-  dayStreak: Type.Integer({ minimum: 0 }),
-  weekStreak: Type.Integer({ minimum: 0 }),
+  dayStreak: Type.Integer({
+    minimum: 0,
+    description: 'Количество дней выполнения привычки подряд',
+  }),
+  weekStreak: Type.Integer({
+    minimum: 0,
+    description: 'Количество недель достижения недельной цели привычки подряд',
+  }),
 }));
 
 export const HabitIdParamsSchema = Type.Object({

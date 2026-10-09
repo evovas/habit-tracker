@@ -10,6 +10,7 @@ import { habitsRoutes } from './modules/habits/habits.routes.ts';
 import { HabitsService } from './modules/habits/habits.service.ts';
 import { healthRoutes } from './modules/health/health.routes.ts';
 import { errorHandlerPlugin } from './plugins/error-handler.ts';
+import { swaggerPlugin } from './plugins/swagger.ts';
 
 const loggerConfigByEnv = {
   development: {
@@ -30,22 +31,27 @@ export const buildApp = (config: Config) => {
     logger: loggerConfigByEnv[config.NODE_ENV],
   });
   fastify.register(errorHandlerPlugin);
+
   fastify.register(fastifyCors, {
     origin: config.CORS_ORIGIN,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   });
-  fastify.register(healthRoutes);
+
+  fastify.register(swaggerPlugin);
 
   const habitsRepository = new InMemoryHabitsRepository();
   const checkinsRepository = new InMemoryCheckinsRepository();
   const habitsService = new HabitsService(habitsRepository, checkinsRepository);
   const checkinsService
     = new CheckinsService(checkinsRepository, habitsRepository);
+  fastify.register(healthRoutes);
   fastify.register(habitsRoutes, { prefix: '/habits', habitsService });
   fastify.register(habitCheckinsRoutes, { prefix: '/habits/:habitId/checkins', checkinsService });
   fastify.register(checkinsRoutes, { prefix: '/checkins', checkinsService });
+
   fastify.addHook('onClose', async () => {
     fastify.log.info('Server closed');
   });
+
   return fastify;
 };

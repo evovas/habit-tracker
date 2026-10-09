@@ -26,6 +26,8 @@ FastifyPluginAsyncTypebox<CheckinsRoutesOptions>
       '/',
       {
         schema: {
+          tags: ['checkins'],
+          summary: 'Отметить привычку выполненной для даты',
           body: CreateCheckinBodySchema,
           params: HabitIdParamsSchema,
           response: {
@@ -46,6 +48,8 @@ FastifyPluginAsyncTypebox<CheckinsRoutesOptions>
       '/:date',
       {
         schema: {
+          tags: ['checkins'],
+          summary: 'Отметить привычку НЕвыполненной для даты',
           params: CheckinParamsSchema,
         },
       },
@@ -69,6 +73,8 @@ FastifyPluginAsyncTypebox<CheckinsRoutesOptions>
       '/',
       {
         schema: {
+          tags: ['checkins'],
+          summary: 'Получить список всех отметок в заданном временном диапазоне',
           querystring: DateRangeQuerySchema,
           response: {
             200: CheckinListResponseSchema,
@@ -86,6 +92,8 @@ FastifyPluginAsyncTypebox<CheckinsRoutesOptions>
       '/statistics',
       {
         schema: {
+          tags: ['checkins'],
+          summary: 'Получить статистику по привычкам',
           querystring: TodayQuerySchema,
           response: {
             200: CheckinStatisticsSchema,
