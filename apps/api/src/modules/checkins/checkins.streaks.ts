@@ -2,7 +2,7 @@ import { getISOStartOfWeek, getISOWeekDay, offsetDate } from '../../shared/dates
 import type { IsoDate } from '../../shared/types.ts';
 import type { Habit } from '../habits/habits.types.ts';
 
-const getWeekActiveDates = (
+export const getWeekActiveDates = (
   habit: Habit,
   weekCount: number,
   today: IsoDate,
