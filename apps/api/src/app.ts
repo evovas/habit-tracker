@@ -2,6 +2,7 @@ import { fastifyCors } from '@fastify/cors';
 import Fastify from 'fastify';
 
 import type { Config } from './config/env.ts';
+import { createDb } from './db/client.ts';
 import { InMemoryCheckinsRepository } from './modules/checkins/checkins.repository.ts';
 import { checkinsRoutes, habitCheckinsRoutes } from './modules/checkins/checkins.routes.ts';
 import { CheckinsService } from './modules/checkins/checkins.service.ts';
@@ -37,6 +38,19 @@ export const buildApp = (config: Config) => {
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   });
 
+  const { pool } = createDb(config.DATABASE_URL);
+  pool.on('error', (err) => {
+    fastify.log.error({ err }, 'Unexpected PostgreSQL pool error');
+  });
+  fastify.addHook('onReady', async () => {
+    await pool.query('SELECT 1');
+    fastify.log.info('Connected to PostgreSQL');
+  });
+  fastify.addHook('onClose', async () => {
+    await pool.end();
+    fastify.log.info('Server closed');
+  });
+
   fastify.register(swaggerPlugin);
 
   const habitsRepository = new InMemoryHabitsRepository();
@@ -48,10 +62,6 @@ export const buildApp = (config: Config) => {
   fastify.register(habitsRoutes, { prefix: '/habits', habitsService });
   fastify.register(habitCheckinsRoutes, { prefix: '/habits/:habitId/checkins', checkinsService });
   fastify.register(checkinsRoutes, { prefix: '/checkins', checkinsService });
-
-  fastify.addHook('onClose', async () => {
-    fastify.log.info('Server closed');
-  });
 
   return fastify;
 };
