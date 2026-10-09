@@ -1,5 +1,5 @@
 import { dayjs, formatToISODate, getISOWeekDay } from '../../shared/dates.ts';
-import { ConflictError, NotFoundError, UnprocessableError, ValidationError } from '../../shared/errors.ts';
+import { NotFoundError, UnprocessableError, ValidationError } from '../../shared/errors.ts';
 import type { DateRange, IsoDate } from '../../shared/types.ts';
 import type { HabitsRepository } from '../habits/habits.repository.ts';
 import type { Habit } from '../habits/habits.types.ts';
@@ -35,10 +35,6 @@ export class CheckinsService {
 
     if (!habit.activeDays.includes(getISOWeekDay(date))) {
       throw new UnprocessableError('Can not create checkin for habit\'s inactive day');
-    }
-
-    if (await this.checkins.checkExists(habitId, date)) {
-      throw new ConflictError(`Checkin with habitId ${habitId} and given date already exists`);
     }
 
     await this.checkins.create(habitId, date);

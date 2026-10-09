@@ -1,11 +1,12 @@
+import { ConflictError } from '../../shared/errors.ts';
 import type { DateRangeOptional, DateRangeStrict, IsoDate } from '../../shared/types.ts';
 import type { Habit } from '../habits/habits.types.ts';
 import type { CheckinSingleEntry } from './checkins.types.ts';
 
 export interface CheckinsRepository {
   findAll(range: DateRangeStrict): Promise<CheckinSingleEntry[]>;
-  checkExists(habitId: Habit['id'], date: IsoDate): Promise<boolean>;
   findByHabitId(habitId: Habit['id'], range?: DateRangeOptional): Promise<IsoDate[]>;
+  /** @throws {ConflictError} if checkin for the given date already exists */
   create(habitId: Habit['id'], date: IsoDate): Promise<IsoDate>;
   delete(habitId: Habit['id'], date: IsoDate): Promise<boolean>;
   deleteByHabitId(habitId: Habit['id']): Promise<void>;
@@ -48,16 +49,6 @@ export class InMemoryCheckinsRepository implements CheckinsRepository {
       );
   }
 
-  async checkExists(habitId: Habit['id'], date: IsoDate) {
-    const habitCheckins = this.items.get(habitId);
-
-    if (habitCheckins) {
-      return habitCheckins.has(date);
-    }
-
-    return false;
-  }
-
   async findByHabitId(habitId: Habit['id'], range?: DateRangeOptional) {
     const habitCheckins = this.items.get(habitId);
 
@@ -79,6 +70,9 @@ export class InMemoryCheckinsRepository implements CheckinsRepository {
     const habitCheckins = this.items.get(habitId);
 
     if (habitCheckins) {
+      if (habitCheckins.has(date)) {
+        throw new ConflictError(`Checkin with habitId ${habitId} and given date already exists`);
+      }
       habitCheckins.add(date);
     } else {
       this.items.set(habitId, new Set([date]));
