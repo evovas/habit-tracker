@@ -1,0 +1,24 @@
+.app {
+  display: grid;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar main";
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: max-content 1fr;
+
+  height: 100%;
+}
+
+.app-header {
+  grid-area: header;
+}
+
+.app-sidebar {
+  grid-area: sidebar;
+}
+
+.app-main {
+  grid-area: main;
+  height: 100%;
+  padding: 18px 32px;
+}

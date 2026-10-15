@@ -1,0 +1,35 @@
+:root {
+  /* App colors */
+  --primary-color: #5b5bd6;
+  --primary-accent-color: #eeeeff;
+  --content-color: #17182b;
+  --content-accent-color: #6f7287;
+  --content-soft-color: #9ca0b5;
+  --canvas-color: #f7f8fc;
+  --card-background-color: #ffffff;
+  --border-color: #e5e7f0;
+  --complete-color: #46c99a;
+  --warning-color: #e55757;
+
+  /* User customization colors */
+  --purple: #5b5bd6;
+  --green: #46c99a;
+  --orange: #f59e5b;
+  --blue: #5b9bd6;
+  --lilac: #9b70d6;
+
+  /* Standard variables */
+  --shadow: 0px 8px 24px rgb(40 41 90 / 0.0784);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-accent-color: #232534;
+    --content-color: #f6f7fb;
+    --content-secondary-color: #a6a9bc;
+    --content-soft-color: #a6a9bc;
+    --canvas-color: #11121a;
+    --card-background-color: #1a1c27;
+    --border-color: #303344;
+  }
+}

@@ -1,0 +1,73 @@
+@use "@/shared/ui/styles/breakpoints" as bp;
+@use "@/shared/ui/styles/visually-hidden" as hidden;
+@use "@/shared/ui/styles/typography" as typo;
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  height: 100%;
+  padding: 28px 20px;
+
+  background-color: var(--card-background-color);
+}
+
+.logo {
+  width: 128px;
+  height: 34px;
+
+  @include bp.only-tablet {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto;
+  }
+}
+
+.navigation {
+  min-width: 192px;
+
+  @include bp.only-tablet {
+    min-width: auto;
+  }
+}
+
+.navigation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.navigation-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  padding: 12px;
+  border-radius: 12px;
+
+  &:hover,
+  &:focus-visible,
+  &[aria-current="page"] {
+    color: var(--primary-color);
+  }
+
+  &[aria-current="page"] {
+    background-color: var(--primary-accent-color);
+  }
+}
+
+.navigation-text {
+  display: inline;
+
+  @include typo.body-m-medium;
+
+  @include bp.only-tablet {
+    @include hidden.visually-hidden;
+  }
+}

@@ -1,0 +1,11 @@
+@use "@/shared/ui/styles/typography" as typo;
+
+.header {
+  padding: 22px 32px;
+}
+
+.title {
+  @include typo.heading-l-regular;
+
+  margin: 0;
+}
