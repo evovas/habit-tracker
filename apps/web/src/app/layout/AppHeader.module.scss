@@ -1,7 +1,29 @@
 @use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
 
 .header {
-  padding: 22px 32px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 20px;
+
+  @include bp.tablet {
+    padding: 22px 32px;
+  }
+}
+
+.menu-button {
+  display: flex;
+
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+
+  background-color: var(--card-background-color);
+
+  @include bp.tablet {
+    display: none;
+  }
 }
 
 .title {
