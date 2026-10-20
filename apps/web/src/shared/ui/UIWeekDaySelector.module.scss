@@ -1,0 +1,105 @@
+@use "@/shared/ui/styles/visually-hidden" as hidden;
+@use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  &:has(.errors-wrapper) .option {
+    border-color: var(--warning-color);
+
+    &:hover:not(:has(input:disabled)),
+    &:has(input:focus-visible) {
+      border-color: var(--warning-hover-color);
+    }
+
+    &:has(input:checked) {
+      border-color: var(--warning-color);
+      color: var(--white);
+      background-color: var(--warning-color);
+
+      &:hover:not(:has(input:disabled)),
+      &:has(input:focus-visible) {
+        border-color: var(--warning-hover-color);
+        background-color: var(--warning-hover-color);
+      }
+    }
+  }
+}
+
+.legend {
+  margin-bottom: 10px;
+
+  @include typo.body-s-regular;
+}
+
+.input {
+  @include hidden.visually-hidden;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+
+  @include bp.tablet {
+    gap: 10px;
+  }
+}
+
+.option {
+  cursor: pointer;
+
+  padding: 10px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  text-align: center;
+
+  &:has(input:disabled) {
+    cursor: auto;
+    opacity: 0.5;
+  }
+
+  &:hover:not(:has(input:disabled)),
+  &:has(input:focus-visible) {
+    border-color: var(--primary-color);
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+
+  &:has(input:checked) {
+    border-color: var(--primary-color);
+    color: var(--white);
+    background-color: var(--primary-color);
+
+    &:hover:not(:has(input:disabled)),
+    &:has(input:focus-visible) {
+      border-color: var(--primary-hover-color);
+      background-color: var(--primary-hover-color);
+    }
+  }
+
+  &:has(input:disabled) {
+    opacity: 0.5;
+  }
+
+  @include typo.body-xs-bold;
+}
+
+.errors-wrapper {
+  @include typo.body-xs-regular;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  margin-top: 10px;
+
+  color: var(--warning-color);
+}

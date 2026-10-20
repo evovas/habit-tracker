@@ -1,0 +1,80 @@
+@use "@/shared/ui/styles/typography" as typo;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+
+  &:has(.errors-wrapper) .input-wrapper {
+    border-color: var(--warning-color);
+
+    .icon {
+      color: var(--warning-color);
+    }
+  }
+}
+
+.label {
+  @include typo.body-s-regular;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+
+  &:focus-within {
+    border-color: var(--primary-color);
+
+    .icon {
+      color: var(--primary-color);
+    }
+  }
+
+  &:has(:disabled) {
+    opacity: 0.7;
+  }
+}
+
+.errors-wrapper {
+  @include typo.body-xs-regular;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--warning-color);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--content-soft-color);
+}
+
+.input {
+  @include typo.body-m-regular;
+
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: none;
+
+  color: var(--content-color);
+
+  background-color: transparent;
+
+  &::placeholder {
+    color: var(--content-soft-color);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

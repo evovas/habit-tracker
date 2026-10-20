@@ -1,0 +1,79 @@
+@use "@/shared/ui/styles/typography" as typo;
+
+.modal {
+  &::backdrop {
+    background-color: var(--modal-backdrop-color);
+    backdrop-filter: blur(5px);
+  }
+
+  &:modal {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    max-width: calc(100% - 12px * 2);
+    max-height: calc(100% - 12px * 2);
+    margin: auto;
+    padding: 22px;
+    border: none;
+    border-radius: 16px;
+
+    background-color: var(--card-background-color);
+  }
+}
+
+.header {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  &:not(:has(.close-button)) {
+    padding-right: calc(33px + 22px);
+  }
+}
+
+.text-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: max-content;
+}
+
+.title {
+  @include typo.heading-l-regular;
+
+  margin: 0;
+}
+
+.description {
+  @include typo.body-s-regular;
+
+  margin: 0;
+  color: var(--content-accent-color);
+}
+
+.close-button {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px;
+  border: none;
+  border-radius: 12px;
+
+  color: var(--content-accent-color);
+
+  background-color: var(--canvas-color);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--primary-hover-color);
+  }
+}
+
+.content {
+  overflow-y: auto;
+}
