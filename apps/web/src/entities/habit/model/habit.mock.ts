@@ -10,12 +10,24 @@ export const habitsMock: Habit[] = [
   {
     id: 'bbaabe4e-bf1d-4e5b-ac5b-4f920e5ff191',
     name: 'Habit 2',
-    activeDays: [5, 6, 7],
+    activeDays: [3, 5, 6, 7],
     weekGoal: 2,
   },
   {
     id: '13e07a48-e56c-48dd-85a1-7e153314fe33',
     name: 'Habit 3',
+    activeDays: [1, 2, 3],
+    weekGoal: 1,
+  },
+  {
+    id: 'c7ffa4eb-642a-4c6e-9309-7ab270b4d9b4',
+    name: 'Habit 4',
+    activeDays: [1, 2, 3],
+    weekGoal: 1,
+  },
+  {
+    id: 'c257cde6-2c9d-4ac9-aeda-12a138bb4a1d',
+    name: 'Habit 5',
     activeDays: [1, 2, 3],
     weekGoal: 1,
   },

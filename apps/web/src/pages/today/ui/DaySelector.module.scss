@@ -1,0 +1,80 @@
+@use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
+
+.day-selector {
+  display: flex;
+  gap: 4px;
+
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+
+  background-color: var(--card-background-color);
+
+  @include bp.tablet {
+    gap: 10px;
+    padding: 16px;
+  }
+}
+
+.day-selector-button {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+
+  width: 100%;
+  padding: 9px;
+  border: none;
+  border-radius: 12px;
+
+  @include bp.tablet {
+    padding: 12px;
+  }
+
+  &.active {
+    color: var(--white);
+    background-color: var(--primary-color);
+
+    .day-selector-name {
+      color: var(--white);
+    }
+
+    .day-selector-completed-mark.completed {
+      background-color: var(--white);
+    }
+  }
+
+  &:disabled {
+    cursor: auto;
+    opacity: 0.5;
+  }
+}
+
+.day-selector-name {
+  @include typo.micro-semibold;
+
+  color: var(--content-accent-color);
+
+  @include bp.tablet {
+    @include typo.body-xs-semibold;
+  }
+}
+
+.day-selector-number {
+  @include typo.body-s-bold;
+
+  @include bp.tablet {
+    @include typo.body-l-bold;
+  }
+}
+
+.day-selector-completed-mark {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+
+  &.completed {
+    background-color: var(--complete-color);
+  }
+}

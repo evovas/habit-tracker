@@ -42,6 +42,9 @@ export default defineConfig(
     jsx: true,
   }),
   {
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+    },
     languageOptions: {
       parserOptions: {
         projectService: {
@@ -147,7 +150,6 @@ export default defineConfig(
 
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-
       // Дубли правил OXLint (react/*, react-hooks/*) — проверяет OXLint
       '@eslint-react/no-array-index-key': 'off',
       '@eslint-react/jsx-no-children-prop': 'off',
@@ -212,6 +214,18 @@ export default defineConfig(
     files: ['**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}'],
     rules: {
       '@conarti/feature-sliced/import-order': 'off',
+    },
+  },
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/shared/ui/icons.ts', 'src/shared/ui/HugeIcon.tsx'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        paths: [{
+          name: '@hugeicons/core-free-icons',
+          message: 'Use IconName from @/shared/ui — add icon to shared/ui/icons.ts',
+        }],
+      }],
     },
   },
   // Всё, что умеет OXLint (включая type-aware), ESLint не проверяет.

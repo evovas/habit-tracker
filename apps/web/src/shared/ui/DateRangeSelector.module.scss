@@ -1,0 +1,34 @@
+@use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
+
+.date-range-selector {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+
+  @include typo.body-xs-regular;
+}
+
+.date-range-selector-period {
+  width: 160px;
+  text-align: center;
+}
+
+.date-range-selector-button {
+  @include typo.body-xs-regular;
+
+  padding: 10px;
+  padding-bottom: 12px;
+  border: none;
+  background-color: transparent;
+
+  &:disabled {
+    cursor: auto;
+    opacity: 0.5;
+  }
+
+  @include bp.tablet {
+    padding: 20px;
+    padding-bottom: 22px;
+  }
+}

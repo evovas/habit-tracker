@@ -1,0 +1,54 @@
+@use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
+
+.habit {
+  display: flex;
+  gap: 14px;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+
+  color: rgb(var(--purple));
+
+  background-color: rgb(var(--purple) / 0.1);
+
+  @include bp.tablet {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.name {
+  margin: 0;
+  margin-bottom: 4px;
+
+  @include typo.heading-l-regular;
+
+  &.compact {
+    margin-bottom: 6px;
+
+    @include typo.body-m-regular;
+
+    @include bp.tablet {
+      @include typo.body-l-regular;
+    }
+  }
+}
+
+.paragraph {
+  @include typo.body-xs-regular;
+}

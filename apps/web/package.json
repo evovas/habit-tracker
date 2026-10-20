@@ -15,9 +15,10 @@
     "stylelint": "stylelint \"src/**/*.{css,scss}\"",
     "stylelint:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
     "steiger": "steiger src",
-    "lint": "run-p --continue-on-error oxlint eslint stylelint steiger",
+    "lint": "run-p --continue-on-error oxlint eslint stylelint",
     "lint:fix:js": "run-s oxlint:fix eslint:fix",
-    "lint:fix": "run-p --continue-on-error stylelint:fix lint:fix:js"
+    "lint:fix": "run-p --continue-on-error stylelint:fix lint:fix:js",
+    "check": "run-p --continue-on-error type-check steiger stylelint:fix lint:fix:js"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.3.5",
@@ -30,7 +31,8 @@
     "react-dom": "^19.3.0",
     "react-router": "^8.4.0",
     "zod": "^4.6.7",
-    "zod-validation-error": "^5.0.0"
+    "zod-validation-error": "^5.0.0",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@conarti/eslint-plugin-feature-sliced": "^2.0.1",
@@ -59,8 +61,8 @@
     "globals": "^17.13.0",
     "jiti": "^2.7.0",
     "npm-run-all2": "^9.0.3",
-    "oxlint": "^1.87.0",
-    "oxlint-tsgolint": "^7.0.2003",
+    "oxlint": "^1.88.0",
+    "oxlint-tsgolint": "^7.0.2004",
     "sass": "^1.105.1",
     "steiger": "^0.7.0",
     "stylelint": "^17.16.0",

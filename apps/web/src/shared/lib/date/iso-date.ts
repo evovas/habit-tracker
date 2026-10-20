@@ -10,13 +10,12 @@ export const getISOWeekDay = (date: string): number =>
 export const getISOStartOfWeek = (date: string): string =>
   formatToISODate(dayjs.utc(date).startOf('isoWeek'));
 
-export const offsetDate = (date: string, n: number): string =>
-  formatToISODate(dayjs.utc(date).add(n, 'day'));
+export const getISOEndOfMonth = (date: string): string =>
+  formatToISODate(dayjs.utc(date).endOf('month'));
 
-export const getWeekDayShortName = (day: number): string => {
-  const name = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][day - 1];
-  if (!name) {
-    throw new Error('Invalid day');
-  }
-  return name;
-};
+export const offsetDate = (
+  date: string,
+  n: number,
+  unit: 'day' | 'week' | 'month' = 'day',
+): string =>
+  formatToISODate(dayjs.utc(date).add(n, unit));

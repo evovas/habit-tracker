@@ -1,9 +1,4 @@
 @layer scaffolding {
-  table {
-    contain: strict;
-    border-collapse: collapse;
-  }
-
   *,
   *::before,
   *::after {
@@ -21,12 +16,8 @@
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
 
-    /* fallback for Js load */
     height: 100%;
     margin: 0;
-
-    font-size: 16px;
-
 
     background-color: var(--canvas-color);
   }
@@ -34,6 +25,11 @@
   /* stylelint-disable-next-line selector-max-id */
   #root {
     height: 100%;
+  }
+
+  body:has(dialog:modal) {
+    overflow: hidden;
+    max-height: 100%;
   }
 
   body {
@@ -60,6 +56,7 @@
 
   button {
     cursor: pointer;
+    font-family: inherit;
     color: inherit;
     background-color: inherit;
   }
