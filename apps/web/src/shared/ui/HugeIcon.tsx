@@ -1,7 +1,7 @@
 import { HugeiconsIcon } from '@hugeicons/react';
 import type { ComponentProps } from 'react';
 
-type IconProps = ComponentProps<typeof HugeiconsIcon>;
+type IconProps = Omit<ComponentProps<typeof HugeiconsIcon>, 'name'>;
 
 export const HugeIcon = ({
   size = 19,
@@ -14,6 +14,7 @@ export const HugeIcon = ({
       size={size}
       color={color}
       strokeWidth={strokeWidth}
+      aria-hidden
       {...rest}
     />
   );

@@ -1,6 +1,6 @@
 import { useClickOutside } from '@reactuses/core/useClickOutside';
 import { clsx } from 'clsx';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router';
 
 import { AppHeader } from './AppHeader.tsx';
@@ -13,23 +13,50 @@ export const AppLayout = () => {
   useClickOutside(menuRef, () => {
     setIsMenuOpen(false);
   });
+  useEffect(() => {
+    const handlePressButton = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handlePressButton);
+
+    return () => {
+      document.removeEventListener('keydown', handlePressButton);
+    };
+  }, []);
   return (
     <div className={s.app}>
       <header className={s.appHeader}>
         <AppHeader
-          onShowMenuClick={setIsMenuOpen}
+          onShowMenuClick={() => {
+            setIsMenuOpen(true);
+          }}
         />
       </header>
       <div
-        ref={menuRef}
-        className={clsx(
-          s.appSidebar,
-          isMenuOpen && s.appSidebarOpen,
-        )}
+        className={
+          clsx(
+            s.appSidebarBackdrop,
+            isMenuOpen && s.appSidebarOpen,
+          )
+        }
       >
-        <AppSidebar
-          onNavigate={setIsMenuOpen}
-        />
+        <div
+          ref={menuRef}
+          className={
+            clsx(
+              s.appSidebar,
+              isMenuOpen && s.appSidebarOpen,
+            )
+          }
+        >
+          <AppSidebar
+            onNavigate={() => {
+              setIsMenuOpen(false);
+            }}
+          />
+        </div>
       </div>
       <main className={s.appMain}>
         <Outlet />
