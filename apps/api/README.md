@@ -135,6 +135,52 @@ GET /checkins?from=2026-10-05&to=2026-10-11
 
 ```json
 {
+  "code": "CHECKIN_INACTIVE_DAY",
+  "message": "Can not create checkin for habit's inactive day"
+}
+```
+
+- `code` — машиночитаемый код. **Фронтенд опирается на него**: по коду выбирается понятный пользователю текст. Коды — часть API и не меняются.
+- `message` — техническое описание на английском, для отладки. Пользователю его не показывать: текст может меняться.
+- `details` — есть только у ошибок валидации схемы запроса (`VALIDATION_ERROR`), см. ниже.
+
+### Коды ошибок
+
+**Общие**
+
+| HTTP | `code` | Когда |
+|---|---|---|
+| 400 | `VALIDATION_ERROR` | Запрос не прошёл валидацию схемы. Подробности по полям — в `details` |
+| 400 | `BAD_REQUEST` | Некорректный запрос: битый JSON, неверный `Content-Type` и т.п. |
+| 404 | `ROUTE_NOT_FOUND` | Такого эндпоинта нет |
+| 500 | `INTERNAL_ERROR` | Ошибка на сервере |
+
+**Привычки**
+
+| HTTP | `code` | Когда |
+|---|---|---|
+| 404 | `HABIT_NOT_FOUND` | Привычки с таким `id` нет. Также при создании отметки для несуществующей привычки |
+| 400 | `HABIT_GOAL_EXCEEDS_DAYS` | `weekGoal` больше количества активных дней. При `PATCH` проверяется итоговая привычка: например, если уменьшить `activeDays`, а старый `weekGoal` перестал помещаться |
+| 400 | `HABIT_NAME_EMPTY` | Имя состоит только из пробелов |
+| 400 | `HABIT_DAYS_EMPTY` | `activeDays` пустой. На практике приходит как `VALIDATION_ERROR` — схема проверяет это раньше |
+| 400 | `HABIT_DAYS_NOT_UNIQUE` | В `activeDays` повторы. На практике приходит как `VALIDATION_ERROR` — схема проверяет это раньше |
+
+**Отметки**
+
+| HTTP | `code` | Когда |
+|---|---|---|
+| 404 | `CHECKIN_NOT_FOUND` | Снимаемой отметки нет |
+| 409 | `CHECKIN_ALREADY_EXISTS` | Отметка на эту дату уже есть |
+| 422 | `CHECKIN_INACTIVE_DAY` | День недели даты не входит в `activeDays` привычки |
+| 400 | `CHECKIN_FUTURE_DATE` | Дата позже завтрашнего дня по UTC |
+| 400 | `CHECKIN_INVALID_DATE_RANGE` | В `GET /checkins` параметр `to` раньше `from` |
+
+Неизвестный фронтенду код стоит показывать общим сообщением об ошибке: новые коды могут появляться.
+
+### Ошибки валидации (`details`)
+
+```json
+{
   "code": "VALIDATION_ERROR",
   "message": "Request validation failed",
   "details": [
@@ -143,18 +189,22 @@ GET /checkins?from=2026-10-05&to=2026-10-11
 }
 ```
 
-`details` есть только у ошибок валидации схемы запроса.
+`path` — где ошибка: `body`, `params` или `querystring`, затем путь к полю. `message` — текст валидатора на английском.
 
-| HTTP | `code` | Когда |
-|---|---|---|
-| 400 | `VALIDATION_ERROR` | Запрос не прошёл валидацию или нарушает правило (например, `weekGoal` больше числа активных дней) |
-| 404 | `NOT_FOUND` | Привычка или отметка не найдена |
-| 404 | `ROUTE_NOT_FOUND` | Такого эндпоинта нет |
-| 409 | `CONFLICT` | Отметка на эту дату уже есть |
-| 422 | `UNPROCESSABLE` | Отметка в неактивный день привычки |
-| 500 | `INTERNAL_ERROR` | Ошибка на сервере |
+| Эндпоинт | Возможные `path` |
+|---|---|
+| `POST /habits` | `body/name`, `body/activeDays`, `body/activeDays/<индекс>`, `body/weekGoal`, `body` |
+| `PATCH /habits/:id` | то же, что у `POST`, и `params/id` |
+| `GET /habits/:id`, `DELETE /habits/:id` | `params/id` |
+| `POST /habits/:habitId/checkins` | `params/habitId`, `body/date`, `body` |
+| `DELETE /habits/:habitId/checkins/:date` | `params/habitId`, `params/date` |
+| `GET /checkins` | `querystring/from`, `querystring/to`, `querystring` |
+| `GET /checkins/statistics` | `querystring/today`, `querystring` |
 
-Фронтенду удобнее опираться на поле `code`, а не на текст `message`.
+- `body/activeDays` — ошибка массива целиком (пустой или с повторами), `body/activeDays/2` — ошибка конкретного элемента (не целое или вне 1–7).
+- **Отсутствующее обязательное поле** даёт `path` объекта, а не поля: `POST /habits` без `name` вернёт `{ "path": "body", "message": "must have required property 'name'" }`. Имя поля есть только в тексте сообщения. Тот же `path: "body"` — у `PATCH` с пустым телом.
+- **В `details` сейчас всегда одна ошибка** — валидатор останавливается на первой. Если неверны два поля, придёт только одно.
+- Лишние поля в теле запроса ошибкой не считаются — сервер их молча отбрасывает.
 
 ## Типы для фронтенда
 

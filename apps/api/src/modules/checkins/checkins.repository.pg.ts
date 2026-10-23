@@ -5,6 +5,7 @@ import type { Db } from '../../db/client.ts';
 import { ConflictError } from '../../shared/errors.ts';
 import type { DateRangeOptional, DateRangeStrict, IsoDate } from '../../shared/types.ts';
 import type { Habit } from '../habits/habits.types.ts';
+import { CheckinsErrorCode } from './checkins.errors.ts';
 import type { CheckinsRepository } from './checkins.repository.ts';
 import { checkinsTable } from './checkins.table.ts';
 
@@ -52,7 +53,10 @@ export class PostgresCheckinsRepository implements CheckinsRepository {
         .values({ habitId, date });
     } catch (err) {
       if (isUniqueViolation(err)) {
-        throw new ConflictError(`Checkin with habitId ${habitId} and given date already exists`);
+        throw new ConflictError(
+          `Checkin with habitId ${habitId} and given date already exists`,
+          CheckinsErrorCode.ALREADY_EXISTS,
+        );
       }
       throw err;
     }

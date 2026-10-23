@@ -1,10 +1,10 @@
 import type { FastifyError, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 
-import { AppError } from '../shared/errors.ts';
+import { AppError, type ErrorCode } from '../shared/errors.ts';
 
 interface ErrorResponse {
-  code: string;
+  code: ErrorCode;
   message: string;
   details?: { path: string; message: string }[];
 }
@@ -43,7 +43,7 @@ const errorHandler: FastifyPluginAsync = async (fastify) => {
       request.log.info({ err: error }, 'Client error');
 
       const body: ErrorResponse = {
-        code: error.code ?? 'BAD_REQUEST',
+        code: 'BAD_REQUEST',
         message: error.message,
       };
       return reply.code(statusCode).send(body);

@@ -1,6 +1,7 @@
 import { ConflictError } from '../../shared/errors.ts';
 import type { DateRangeOptional, DateRangeStrict, IsoDate } from '../../shared/types.ts';
 import type { Habit } from '../habits/habits.types.ts';
+import { CheckinsErrorCode } from './checkins.errors.ts';
 import type { CheckinSingleEntry } from './checkins.types.ts';
 
 export interface CheckinsRepository {
@@ -71,7 +72,10 @@ export class InMemoryCheckinsRepository implements CheckinsRepository {
 
     if (habitCheckins) {
       if (habitCheckins.has(date)) {
-        throw new ConflictError(`Checkin with habitId ${habitId} and given date already exists`);
+        throw new ConflictError(
+          `Checkin with habitId ${habitId} and given date already exists`,
+          CheckinsErrorCode.ALREADY_EXISTS,
+        );
       }
       habitCheckins.add(date);
     } else {

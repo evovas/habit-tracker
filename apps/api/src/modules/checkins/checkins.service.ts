@@ -1,8 +1,10 @@
 import { dayjs, formatToISODate, getISOWeekDay } from '../../shared/dates.ts';
 import { NotFoundError, UnprocessableError, ValidationError } from '../../shared/errors.ts';
 import type { DateRange, IsoDate } from '../../shared/types.ts';
+import { HabitsErrorCode } from '../habits/habits.errors.ts';
 import type { HabitsRepository } from '../habits/habits.repository.ts';
 import type { Habit } from '../habits/habits.types.ts';
+import { CheckinsErrorCode } from './checkins.errors.ts';
 import type { CheckinsRepository } from './checkins.repository.ts';
 import { getDaysStreakForHabit, getWeeksStreakForHabit } from './checkins.streaks.ts';
 import type { CheckinSingleEntry, CheckinStatistics } from './checkins.types.ts';
@@ -21,11 +23,14 @@ export class CheckinsService {
     date: IsoDate,
   ): asserts habit is Habit {
     if (!habit) {
-      throw new NotFoundError(`Habit with given id does not exists`);
+      throw new NotFoundError(`Habit with given id does not exists`, HabitsErrorCode.NOT_FOUND);
     }
 
     if (date > getMaximumAllowableDate()) {
-      throw new ValidationError('It is not possible to perform a transaction with a future date');
+      throw new ValidationError(
+        'It is not possible to perform a transaction with a future date',
+        CheckinsErrorCode.FUTURE_DATE,
+      );
     }
   }
 
@@ -34,7 +39,10 @@ export class CheckinsService {
     this.validateCheckin(habit, date);
 
     if (!habit.activeDays.includes(getISOWeekDay(date))) {
-      throw new UnprocessableError('Can not create checkin for habit\'s inactive day');
+      throw new UnprocessableError(
+        'Can not create checkin for habit\'s inactive day',
+        CheckinsErrorCode.INACTIVE_DAY,
+      );
     }
 
     await this.checkins.create(habitId, date);
@@ -45,7 +53,10 @@ export class CheckinsService {
     const isDeleted = await this.checkins.delete(habitId, date);
 
     if (!isDeleted) {
-      throw new NotFoundError(`Checkin with habitId ${habitId} and given date not found`);
+      throw new NotFoundError(
+        `Checkin with habitId ${habitId} and given date not found`,
+        CheckinsErrorCode.NOT_FOUND,
+      );
     }
   }
 
@@ -53,7 +64,10 @@ export class CheckinsService {
     range: DateRange,
   ): Promise<CheckinSingleEntry[]> {
     if (range.to && range.to < range.from) {
-      throw new ValidationError('End date of range can\'t be less than start date');
+      throw new ValidationError(
+        'End date of range can\'t be less than start date',
+        CheckinsErrorCode.INVALID_DATE_RANGE,
+      );
     }
 
     return await this.checkins.findAll({
