@@ -6,7 +6,6 @@ import { z } from 'zod';
 import type { Habit } from '@/entities/habit';
 import {
   UIButton,
-  UIModal,
   UITextInput,
   UIVariantSelector,
   UIWeekDaySelector,
@@ -19,7 +18,6 @@ import s from './HabitForm.module.scss';
 
 interface HabitFormProps {
   habit?: Habit;
-  open: boolean;
   onClose: () => void;
   onSave: () => void;
 }
@@ -49,11 +47,9 @@ const FREQUENCY_OPTIONS: FrequencyOption[] = [
 
 export const HabitForm = ({
   habit,
-  open,
   onClose,
   onSave,
 }: HabitFormProps) => {
-  const isEditing = Boolean(habit);
   const [name, setName] = useState<HabitFormInput['name']>(habit?.name ?? '');
   const [weekGoal, setWeekGoal] = useState<HabitFormInput['weekGoal']>(
     habit?.weekGoal ? String(habit.weekGoal) : '1',
@@ -120,57 +116,49 @@ export const HabitForm = ({
   };
 
   return (
-    <UIModal
-      open={open}
-      title={isEditing ? 'Edit habit' : 'Add a new habit'}
-      closable={!isPending}
-      description={isEditing ? undefined : 'Create a routine now—you can edit these details anytime.'}
-      onClose={onClose}
+    <form
+      onSubmit={handleSubmit}
+      noValidate
     >
-      <form
-        onSubmit={handleSubmit}
-        noValidate
-      >
-        <div className={s.formWrapper}>
-          <UITextInput
-            icon="text"
-            label="Name"
-            required
-            maxLength={120}
-            value={name}
-            errors={errors.name}
-            onChange={setName}
-          />
-          <UITextInput
-            type="number"
-            icon="number"
-            label="Weekly goal"
-            required
-            maxLength={1}
-            value={weekGoal}
-            errors={errors.weekGoal}
-            onChange={setWeekGoal}
-          />
-          <UIVariantSelector
-            label="Frequency"
-            options={FREQUENCY_OPTIONS}
-            value={frequency}
-            onChange={handleSetFrequency}
-          />
-          <UIWeekDaySelector
-            label="Active days"
-            name="activeDays"
-            disabled={frequency === 'all'}
-            value={activeDays}
-            errors={errors.activeDays}
-            onChange={setActiveDays}
-          />
-          <div className={s.buttonsWrapper}>
-            <UIButton text="Cancel" variant="secondary" disabled={isPending} onClick={onClose} />
-            <UIButton text="Save habit" type="submit" disabled={isPending} />
-          </div>
+      <div className={s.formWrapper}>
+        <UITextInput
+          icon="text"
+          label="Name"
+          required
+          maxLength={120}
+          value={name}
+          errors={errors.name}
+          onChange={setName}
+        />
+        <UITextInput
+          type="number"
+          icon="number"
+          label="Weekly goal"
+          required
+          maxLength={1}
+          value={weekGoal}
+          errors={errors.weekGoal}
+          onChange={setWeekGoal}
+        />
+        <UIVariantSelector
+          label="Frequency"
+          options={FREQUENCY_OPTIONS}
+          value={frequency}
+          onChange={handleSetFrequency}
+        />
+        <UIWeekDaySelector
+          label="Active days"
+          name="activeDays"
+          disabled={frequency === 'all'}
+          value={activeDays}
+          errors={errors.activeDays}
+          onChange={setActiveDays}
+        />
+        <div className={s.buttonsWrapper}>
+          <UIButton text="Cancel" variant="secondary" disabled={isPending} onClick={onClose} />
+          <UIButton text="Save habit" type="submit" disabled={isPending} />
         </div>
-      </form>
-    </UIModal>
+      </div>
+    </form>
   );
 };

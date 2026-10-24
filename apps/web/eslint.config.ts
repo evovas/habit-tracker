@@ -228,6 +228,16 @@ export default defineConfig(
       }],
     },
   },
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/shared/config/env.ts'],
+    rules: {
+      'no-restricted-syntax': ['error', {
+        selector: 'MemberExpression[object.type="MetaProperty"][property.name="env"]',
+        message: 'Use `env` from @/shared/config — add the variable to the schema in shared/config/env.ts',
+      }],
+    },
+  },
   // Всё, что умеет OXLint (включая type-aware), ESLint не проверяет.
   // Должно идти последним.
   ...oxlint.buildFromOxlintConfigFile('./.oxlintrc.json', {

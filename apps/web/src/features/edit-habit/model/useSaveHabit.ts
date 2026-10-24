@@ -1,5 +1,10 @@
+import type { DefaultError } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import type { Habit, HabitDraft } from '@/entities/habit';
-import { useHabitsMockStore } from '@/entities/habit';
+import { habitApi, habitQueryOptions } from '@/entities/habit';
+
+import { HABIT_FORM_MUTATION_KEYS } from './habit-form.mutation-keys.ts';
 
 interface SaveHabitVariables {
   id?: Habit['id'];
@@ -12,22 +17,62 @@ interface UseSaveHabitResult {
     options?: { onSuccess?: (habit: Habit) => void },
   ) => void;
   isPending: boolean;
-  error: Error | null;
+  error: DefaultError | null;
 }
 
 export const useSaveHabit = (): UseSaveHabitResult => {
-  const createHabit = useHabitsMockStore((state) => state.create);
-  const updateHabit = useHabitsMockStore((state) => state.update);
+  const queryClient = useQueryClient();
+  const {
+    mutate: saveHabit,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: ({ id, draft }: SaveHabitVariables) => {
+      if (id) {
+        return habitApi.update(id, draft);
+      }
+      return habitApi.create(draft);
+    },
+    mutationKey: HABIT_FORM_MUTATION_KEYS.SAVE,
+    onSuccess: (data, variables) => {
+      if (variables.id) {
+        queryClient.setQueryData(
+          habitQueryOptions.list().queryKey,
+          (oldData) => {
+            if (oldData) {
+              const result = [...oldData];
+              const index = result.findIndex((item) =>
+                item.id === variables.id,
+              );
+              if (index !== -1) {
+                result[index] = data;
+              }
+              return result;
+            }
+            return oldData;
+          },
+        );
+      } else {
+        queryClient.setQueryData(
+          habitQueryOptions.list().queryKey,
+          (oldData) => {
+            if (oldData) {
+              return [...oldData, data];
+            }
+            return oldData;
+          },
+        );
+      }
+    },
+  });
 
   const save: UseSaveHabitResult['save'] = (variables, options) => {
-    const { draft, id } = variables;
-    const result = id ? updateHabit(id, draft) : createHabit(draft);
-    options?.onSuccess?.(result);
+    saveHabit(variables, options);
   };
 
   return {
     save,
-    isPending: false,
-    error: null,
+    isPending,
+    error,
   };
 };

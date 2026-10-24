@@ -1,1 +1,1 @@
-export { HabitForm } from './ui/HabitForm.tsx';
+export { HabitFormModal } from './ui/HabitFormModal.tsx';

@@ -40,3 +40,4 @@ export const withHabitRules
 
 export const zHabit = withHabitRules(zHabitShape);
 export const zHabitDraft = withHabitRules(zHabitShape.omit({ id: true }));
+export const zHabitList = z.array(zHabit);

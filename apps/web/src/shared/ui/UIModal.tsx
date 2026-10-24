@@ -1,9 +1,13 @@
 import type { ReactNode } from 'react';
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 import { HugeIcon } from './HugeIcon.tsx';
 import { icons } from './icons.ts';
 import s from './UIModal.module.scss';
+
+interface ModalApi {
+  close: () => void;
+}
 
 interface UIModalProps {
   closable?: boolean;
@@ -11,7 +15,7 @@ interface UIModalProps {
   onClose?: () => void;
   title?: string;
   description?: string;
-  children?: ReactNode;
+  children?: ReactNode | ((modal: ModalApi) => ReactNode);
 }
 
 export const UIModal = ({
@@ -22,12 +26,11 @@ export const UIModal = ({
   description,
   children,
 }: UIModalProps) => {
-  const ref = useRef<HTMLDialogElement>(null);
+  const [dialog, setDialog] = useState<HTMLDialogElement | null>(null);
   const titleId = useId();
   const descriptionId = useId();
   /* eslint-disable react-you-might-not-need-an-effect/no-event-handler -- syncs `open` prop with native <dialog> API */
   useEffect(() => {
-    const dialog = ref.current;
     if (!dialog) {
       return;
     }
@@ -36,12 +39,20 @@ export const UIModal = ({
     } else if (!open && dialog.open) {
       dialog.close();
     }
-  }, [open]);
+  }, [open, dialog]);
   /* eslint-enable react-you-might-not-need-an-effect/no-event-handler */
+
+  const close = () => {
+    dialog?.close();
+  };
+
+  const content = typeof children === 'function'
+    ? children({ close })
+    : children;
 
   return (
     <dialog
-      ref={ref}
+      ref={setDialog}
       className={s.modal}
       aria-labelledby={title ? titleId : undefined}
       aria-describedby={description ? descriptionId : undefined}
@@ -67,7 +78,7 @@ export const UIModal = ({
                     aria-label="Close modal"
                     className={s.closeButton}
                     onClick={() => {
-                      ref.current?.close();
+                      dialog?.close();
                     }}
                   >
                     <HugeIcon icon={icons.close} />
@@ -76,7 +87,7 @@ export const UIModal = ({
             </div>
             {Boolean(children) && (
               <div className={s.content}>
-                {children}
+                {content}
               </div>
             )}
           </>
