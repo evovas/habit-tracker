@@ -51,6 +51,8 @@
   padding: 12px;
   border-radius: 12px;
 
+  color: var(--content-accent-color);
+
   &:hover,
   &:focus-visible,
   &[aria-current="page"] {

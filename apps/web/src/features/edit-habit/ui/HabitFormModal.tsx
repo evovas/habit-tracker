@@ -5,6 +5,7 @@ import { UIModal } from '@/shared/ui';
 
 import { HABIT_FORM_MUTATION_KEYS } from '../model/habit-form.mutation-keys.ts';
 import { HabitForm } from './HabitForm.tsx';
+import s from './HabitFormModal.module.scss';
 
 interface HabitFormModalProps {
   habit?: Habit;
@@ -26,6 +27,7 @@ export const HabitFormModal = ({
       title={habit?.id ? 'Edit habit' : 'Add a new habit'}
       closable={!isPending}
       description={habit?.id ? undefined : 'Create a routine now—you can edit these details anytime.'}
+      className={s.formModal}
       onClose={onClose}
     >
       {({ close }) => (

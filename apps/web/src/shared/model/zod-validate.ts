@@ -1,5 +1,8 @@
+import { ZodError } from 'zod';
 import { z } from 'zod/v4';
 import { createErrorMap, fromError } from 'zod-validation-error/v4';
+
+import { ResponseValidationError, UnexpectedError } from '../api/error-handler.ts';
 
 z.config({
   customError: createErrorMap(),
@@ -34,6 +37,9 @@ export function validateData<T extends z.ZodType>(
     console.error(validationError.toString());
     console.error('Received data:', message);
     console.error('Expected JSONSchema:', JSONSchema);
-    throw error;
+    if (error instanceof ZodError) {
+      throw new ResponseValidationError(error);
+    }
+    throw new UnexpectedError(error);
   }
 }

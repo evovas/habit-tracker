@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { useEffect, useId, useState } from 'react';
 
@@ -16,6 +17,7 @@ interface UIModalProps {
   title?: string;
   description?: string;
   children?: ReactNode | ((modal: ModalApi) => ReactNode);
+  className?: string;
 }
 
 export const UIModal = ({
@@ -25,6 +27,7 @@ export const UIModal = ({
   title,
   description,
   children,
+  className,
 }: UIModalProps) => {
   const [dialog, setDialog] = useState<HTMLDialogElement | null>(null);
   const titleId = useId();
@@ -65,7 +68,7 @@ export const UIModal = ({
     >
       {
         open && (
-          <>
+          <div className={clsx(s.modalContent, className)}>
             <div className={s.header}>
               <div className={s.textWrapper}>
                 {title && <h2 id={titleId} className={s.title}>{title}</h2>}
@@ -90,7 +93,7 @@ export const UIModal = ({
                 {content}
               </div>
             )}
-          </>
+          </div>
         )
       }
     </dialog>

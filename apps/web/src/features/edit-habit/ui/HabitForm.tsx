@@ -4,6 +4,7 @@ import type { ZodError, ZodSafeParseResult } from 'zod';
 import { z } from 'zod';
 
 import type { Habit } from '@/entities/habit';
+import { ApiError } from '@/shared/api';
 import {
   UIButton,
   UITextInput,
@@ -11,8 +12,9 @@ import {
   UIWeekDaySelector,
 } from '@/shared/ui';
 
+import { parseHabitFormError } from '../api/habit-form.error-handler.ts';
 import { zHabitForm } from '../model/habit-form.schema.ts';
-import type { HabitFormInput, HabitFormOutput } from '../model/habit-form.types.ts';
+import type { FormErrorState, HabitFormInput, HabitFormOutput } from '../model/habit-form.types.ts';
 import { useSaveHabit } from '../model/useSaveHabit.ts';
 import s from './HabitForm.module.scss';
 
@@ -29,10 +31,11 @@ interface FrequencyOption {
 }
 
 const FULL_WEEK_DAYS = [1, 2, 3, 4, 5, 6, 7] as const;
-const DEFAULT_ERROR_STATE: Record<keyof HabitFormInput, string[]> = {
+const DEFAULT_ERROR_STATE: FormErrorState = {
   name: [],
   activeDays: [],
   weekGoal: [],
+  body: [],
 };
 const FREQUENCY_OPTIONS: FrequencyOption[] = [
   {
@@ -90,9 +93,14 @@ export const HabitForm = ({
 
   const { save, isPending } = useSaveHabit();
   const [isOnceSubmitted, setIsOnceSubmitted] = useState(false);
-  const errors = {
+  const clientErrors = {
     ...DEFAULT_ERROR_STATE,
     ...(isOnceSubmitted ? flattenError(validateForm().error) : {}),
+  };
+  const [serverErrors, setServerErrors] = useState<Partial<FormErrorState>>({});
+  const errors = {
+    ...clientErrors,
+    ...serverErrors,
   };
   const handleSubmit = (evt: SubmitEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -111,8 +119,18 @@ export const HabitForm = ({
         onSuccess: () => {
           onSave();
         },
+        onError: (error) => {
+          if (error instanceof ApiError) {
+            setServerErrors(parseHabitFormError(error));
+          }
+        },
       },
     );
+  };
+
+  const handleFormChange = <T,>(value: T, setter: (v: T) => void) => {
+    setServerErrors({});
+    setter(value);
   };
 
   return (
@@ -128,7 +146,9 @@ export const HabitForm = ({
           maxLength={120}
           value={name}
           errors={errors.name}
-          onChange={setName}
+          onChange={(v) => {
+            handleFormChange(v, setName);
+          }}
         />
         <UITextInput
           type="number"
@@ -138,13 +158,17 @@ export const HabitForm = ({
           maxLength={1}
           value={weekGoal}
           errors={errors.weekGoal}
-          onChange={setWeekGoal}
+          onChange={(v) => {
+            handleFormChange(v, setWeekGoal);
+          }}
         />
         <UIVariantSelector
           label="Frequency"
           options={FREQUENCY_OPTIONS}
           value={frequency}
-          onChange={handleSetFrequency}
+          onChange={(v) => {
+            handleFormChange(v, handleSetFrequency);
+          }}
         />
         <UIWeekDaySelector
           label="Active days"
@@ -152,8 +176,15 @@ export const HabitForm = ({
           disabled={frequency === 'all'}
           value={activeDays}
           errors={errors.activeDays}
-          onChange={setActiveDays}
+          onChange={(v) => {
+            handleFormChange(v, setActiveDays);
+          }}
         />
+        {errors.body.length > 0 && (
+          <div role="alert" className={s.errorTextWrapper}>
+            {errors.body.map((error) => <p key={error} className={s.errorText}>{error}</p>)}
+          </div>
+        )}
         <div className={s.buttonsWrapper}>
           <UIButton text="Cancel" variant="secondary" disabled={isPending} onClick={onClose} />
           <UIButton text="Save habit" type="submit" disabled={isPending} />

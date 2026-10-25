@@ -8,9 +8,7 @@
 
   &:modal {
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
+
 
     max-width: calc(100% - 12px * 2);
     max-height: calc(100% - 12px * 2);
@@ -21,6 +19,12 @@
 
     background-color: var(--card-background-color);
   }
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
 .header {

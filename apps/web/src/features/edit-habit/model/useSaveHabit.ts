@@ -14,7 +14,10 @@ interface SaveHabitVariables {
 interface UseSaveHabitResult {
   save: (
     variables: SaveHabitVariables,
-    options?: { onSuccess?: (habit: Habit) => void },
+    options?: {
+      onSuccess?: (habit: Habit) => void;
+      onError?: (error: DefaultError) => void;
+    },
   ) => void;
   isPending: boolean;
   error: DefaultError | null;
@@ -34,6 +37,9 @@ export const useSaveHabit = (): UseSaveHabitResult => {
       return habitApi.create(draft);
     },
     mutationKey: HABIT_FORM_MUTATION_KEYS.SAVE,
+    meta: {
+      handlesApiErrors: true,
+    },
     onSuccess: (data, variables) => {
       if (variables.id) {
         queryClient.setQueryData(

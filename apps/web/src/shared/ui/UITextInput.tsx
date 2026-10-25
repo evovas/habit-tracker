@@ -47,7 +47,7 @@ export const UITextInput = ({
           pattern={type === 'number' ? '[0-9]*' : undefined}
           className={s.input}
           aria-invalid={Boolean(errors?.length)}
-          aria-describedby={errorId}
+          aria-describedby={errors?.length ? errorId : undefined}
           value={value}
           onChange={(e) => {
             onChange(e.target.value);
@@ -56,10 +56,8 @@ export const UITextInput = ({
         />
       </span>
       {Boolean(errors?.length) && (
-        <span id={errorId}>
-          <span className={s.errorsWrapper}>
-            {errors?.map((error) => <span key={error}>{error}</span>)}
-          </span>
+        <span id={errorId} className={s.errorsWrapper}>
+          {errors?.map((error) => <span key={error}>{error}</span>)}
         </span>
       )}
     </label>

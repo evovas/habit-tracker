@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const zEnv = z
   .object({
-    VITE_API_URL: z.string(),
+    VITE_API_URL: z.url(),
   })
   .transform((raw) => ({
     apiUrl: raw.VITE_API_URL,

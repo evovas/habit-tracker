@@ -9,14 +9,14 @@ const zNumberField = (requiredMessage: string) =>
     .min(1, requiredMessage)
     .pipe(z
       .coerce
-      .number<string>('The field must contain only numbers')
-      .int('The field must contain only whole number'),
+      .number<string>('The field must contain only numbers.')
+      .int('The field must contain only whole number.'),
     );
 
 const zHabitDraftShape = zHabitDraft.shape;
 
 export const zHabitForm = withHabitRules(z.object({
   name: z.string().pipe(zHabitDraftShape.name),
-  weekGoal: zNumberField('Enter your weekly goal').pipe(zHabitDraftShape.weekGoal),
+  weekGoal: zNumberField('Enter your weekly goal.').pipe(zHabitDraftShape.weekGoal),
   activeDays: zHabitDraftShape.activeDays,
 }));
