@@ -1,0 +1,21 @@
+@use "@/shared/ui/styles/breakpoints" as bp;
+
+.card {
+  padding: 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background-color: var(--card-background-color);
+
+  @include bp.tablet {
+    padding: 22px;
+  }
+}
+
+.with-shadow:hover {
+  box-shadow: 0 8px 24px rgb(40 41 90 / 0);
+  transition: box-shadow 0.15s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgb(40 41 90 / 0.0784);
+  }
+}

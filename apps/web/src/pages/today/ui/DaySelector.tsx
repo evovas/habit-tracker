@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import type { CheckinEntry } from '@/entities/checkin';
 import type { Habit } from '@/entities/habit';
 import { dayjs } from '@/shared/lib/date';
+import { UICard } from '@/shared/ui';
 
 import { getWeekDayData } from '../model/get-week-data.ts';
 import s from './DaySelector.module.scss';
@@ -26,7 +27,7 @@ export const DaySelector = ({
 }: DaySelectorProps) => {
   const chosenWeekDates = getWeekDayData(habits, checkins, weekStart);
   return (
-    <div className={s.daySelector}>
+    <UICard className={s.daySelector}>
       {chosenWeekDates.map((item) => (
         <button
           key={item.date}
@@ -53,6 +54,6 @@ export const DaySelector = ({
           />
         </button>
       ))}
-    </div>
+    </UICard>
   );
 };

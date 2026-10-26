@@ -1,4 +1,5 @@
 import { pluralize } from '@/shared/lib';
+import { UICard } from '@/shared/ui';
 
 import s from './DaySummary.module.scss';
 
@@ -15,7 +16,7 @@ export const DaySummary = ({
   const percent = total > 0 ? Math.round(done / total * 100) : 0;
 
   return (
-    <div className={s.daySummary}>
+    <UICard className={s.daySummary}>
       <div className={s.daySummaryCounter}>
         {done} of {total}
         <span className={s.daySummaryCounterText}>habits done</span>
@@ -45,6 +46,6 @@ export const DaySummary = ({
           />
         </div>
       </div>
-    </div>
+    </UICard>
   );
 };
