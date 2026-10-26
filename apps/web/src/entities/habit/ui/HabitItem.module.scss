@@ -4,10 +4,13 @@
 .habit {
   display: flex;
   gap: 14px;
+  align-items: center;
+  width: 100%;
 }
 
 .icon {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
 
@@ -30,6 +33,8 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+
+  width: 100%;
 }
 
 .name {
@@ -47,6 +52,10 @@
       @include typo.body-l-regular;
     }
   }
+}
+
+.skeleton {
+  width: 100%;
 }
 
 .paragraph {

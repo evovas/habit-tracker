@@ -5,3 +5,4 @@ export { habitQueryOptions } from './model/habit.queries.ts';
 export type { Habit, HabitDraft } from './model/habit.types.ts';
 export { withHabitRules, zHabit, zHabitDraft, zHabitList } from './model/habit.validator.ts';
 export { HabitItem } from './ui/HabitItem.tsx';
+export { HabitItemSkeleton } from './ui/HabitItemSkeleton.tsx';

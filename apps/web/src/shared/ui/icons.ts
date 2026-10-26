@@ -1,5 +1,6 @@
 import {
   Add01Icon,
+  Alert01Icon,
   CalendarCheckIcon,
   CalendarCheckOut02Icon,
   Cancel01Icon,
@@ -8,6 +9,7 @@ import {
   Delete02Icon,
   Menu01Icon,
   Pen01Icon,
+  ReloadIcon,
   Settings01Icon,
   TextIcon,
   TextNumberSignIcon,
@@ -29,6 +31,8 @@ export const icons = {
   menu: Menu01Icon,
   text: TextIcon,
   number: TextNumberSignIcon,
+  alert: Alert01Icon,
+  retry: ReloadIcon,
 } as const;
 
 export type IconName = keyof typeof icons;

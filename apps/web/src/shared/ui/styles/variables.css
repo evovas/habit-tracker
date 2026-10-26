@@ -14,6 +14,7 @@
   --border-active-color: color-mix(in oklch, var(--border-color), var(--primary-color) 40%);
   --complete-color: #46c99a;
   --warning-color: #e55757;
+  --warning-background-color: rgb(229 87 87 / 0.1);
   --warning-hover-color: color-mix(in oklch, var(--warning-color), black 10%);
   --warning-active-color: color-mix(in oklch, var(--warning-color), black 20%);
   --white: #ffffff;
