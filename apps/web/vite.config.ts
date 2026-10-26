@@ -1,11 +1,17 @@
 import { fileURLToPath, URL } from 'node:url';
 
-import react from '@vitejs/plugin-react';
+import babel from '@rolldown/plugin-babel';
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    babel({
+      presets: [reactCompilerPreset()],
+    }),
+  ],
   css: {
     modules: {
       localsConvention: 'camelCaseOnly',
