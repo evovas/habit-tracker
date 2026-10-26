@@ -1,0 +1,9 @@
+export const TestWeek = {
+  MONDAY: '2026-10-05',
+  TUESDAY: '2026-10-06',
+  WEDNESDAY: '2026-10-07',
+  THURSDAY: '2026-10-08',
+  FRIDAY: '2026-10-09',
+  SATURDAY: '2026-10-10',
+  SUNDAY: '2026-10-11',
+};
