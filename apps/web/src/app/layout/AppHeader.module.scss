@@ -1,0 +1,25 @@
+@use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
+
+.header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 20px;
+
+  @include bp.tablet {
+    padding: 22px 32px;
+  }
+}
+
+.menu-button {
+  @include bp.tablet {
+    display: none;
+  }
+}
+
+.title {
+  @include typo.heading-l-regular;
+
+  margin: 0;
+}

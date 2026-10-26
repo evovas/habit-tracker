@@ -1,0 +1,175 @@
+@use "sass:math";
+
+// Типографика из стилей текста Figma (Text styles: display/*, heading/*,
+// body/*, caption/*, micro/*, overline/*).
+// Использование: @use "@/shared/ui/styles/typography" as typo;
+//                .title { @include typo.heading-l-regular; }
+// Семейство шрифта (Inter) задаётся глобально на body.
+
+$regular: 400;
+$medium: 500;
+$semibold: 600;
+$bold: 700;
+
+@function rem($px) {
+  @return math.div($px, 16px) * 1rem;
+}
+
+@mixin text($size, $weight, $line-height: normal, $letter-spacing: 0) {
+  font-size: rem($size);
+  font-weight: $weight;
+  line-height: $line-height;
+  letter-spacing: $letter-spacing;
+}
+
+// Display
+
+@mixin display-l-regular {
+  @include text(56px, $regular, 1.08, -0.03em);
+}
+
+@mixin display-s-regular {
+  @include text(28px, $regular);
+}
+
+// Heading
+
+@mixin heading-xl-regular {
+  @include text(32px, $regular, 1.2);
+}
+
+@mixin heading-l-regular {
+  @include text(24px, $regular);
+}
+
+@mixin heading-m-regular {
+  @include text(20px, $regular);
+}
+
+@mixin heading-m-bold {
+  @include text(20px, $bold);
+}
+
+@mixin heading-s-regular {
+  @include text(18px, $regular);
+}
+
+@mixin heading-s-bold {
+  @include text(18px, $bold);
+}
+
+// Body XL
+
+@mixin body-xl-paragraph {
+  @include text(18px, $regular, 1.5);
+}
+
+// Body L — 16px
+
+@mixin body-l-regular {
+  @include text(16px, $regular);
+}
+
+@mixin body-l-bold {
+  @include text(16px, $bold);
+}
+
+@mixin body-l-paragraph {
+  @include text(16px, $regular, 1.5);
+}
+
+// Body M — 14px
+
+@mixin body-m-regular {
+  @include text(14px, $regular);
+}
+
+@mixin body-m-medium {
+  @include text(14px, $medium);
+}
+
+@mixin body-m-bold {
+  @include text(14px, $bold);
+}
+
+@mixin body-m-paragraph {
+  @include text(14px, $regular, 1.5);
+}
+
+// Body S — 13px
+
+@mixin body-s-regular {
+  @include text(13px, $regular);
+}
+
+@mixin body-s-medium {
+  @include text(13px, $medium);
+}
+
+@mixin body-s-semibold {
+  @include text(13px, $semibold);
+}
+
+@mixin body-s-bold {
+  @include text(13px, $bold);
+}
+
+@mixin body-s-paragraph {
+  @include text(13px, $regular, 1.5);
+}
+
+// Body XS — 12px
+
+@mixin body-xs-regular {
+  @include text(12px, $regular);
+}
+
+@mixin body-xs-semibold {
+  @include text(12px, $semibold);
+}
+
+@mixin body-xs-bold {
+  @include text(12px, $bold);
+}
+
+@mixin body-xs-paragraph {
+  @include text(12px, $regular, 1.5);
+}
+
+// Caption — 11px
+
+@mixin caption-regular {
+  @include text(11px, $regular);
+}
+
+@mixin caption-semibold {
+  @include text(11px, $semibold);
+}
+
+@mixin caption-bold {
+  @include text(11px, $bold);
+}
+
+// Micro — 10px
+
+@mixin micro-regular {
+  @include text(10px, $regular);
+}
+
+@mixin micro-semibold {
+  @include text(10px, $semibold);
+}
+
+// Overline
+
+@mixin overline-s {
+  @include text(11px, $bold);
+
+  text-transform: uppercase;
+}
+
+@mixin overline-m {
+  @include text(12px, $regular, normal, rem(1px));
+
+  text-transform: uppercase;
+}

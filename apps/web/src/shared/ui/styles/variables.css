@@ -1,0 +1,45 @@
+:root {
+  /* App colors */
+  --primary-color: #5b5bd6;
+  --primary-hover-color: color-mix(in oklch, var(--primary-color), black 10%);
+  --primary-active-color: color-mix(in oklch, var(--primary-color), black 20%);
+  --primary-accent-color: #eeeeff;
+  --content-color: #17182b;
+  --content-accent-color: #6f7287;
+  --content-soft-color: #9ca0b5;
+  --canvas-color: #f7f8fc;
+  --card-background-color: #ffffff;
+  --border-color: #e5e7f0;
+  --border-hover-color: color-mix(in oklch, var(--border-color), var(--primary-color) 20%);
+  --border-active-color: color-mix(in oklch, var(--border-color), var(--primary-color) 40%);
+  --complete-color: #46c99a;
+  --warning-color: #e55757;
+  --warning-hover-color: color-mix(in oklch, var(--warning-color), black 10%);
+  --warning-active-color: color-mix(in oklch, var(--warning-color), black 20%);
+  --white: #ffffff;
+  --modal-backdrop-color: rgb(23 24 43 / 0.32);
+
+  /* User customization colors */
+  --purple: 91 91 214;
+  --green: 70 201 154;
+  --orange: 245 158 91;
+  --blue: 91 155 214;
+  --lilac: 155 112 214;
+
+  /* Standard variables */
+  --shadow: 0px 8px 24px rgb(40 41 90 / 0.0784);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-hover-color: color-mix(in oklch, var(--primary-color), white 20%);
+    --primary-active-color: color-mix(in oklch, var(--primary-color), white 10%);
+    --primary-accent-color: #232534;
+    --content-color: #f6f7fb;
+    --content-secondary-color: #a6a9bc;
+    --content-soft-color: #a6a9bc;
+    --canvas-color: #11121a;
+    --card-background-color: #1a1c27;
+    --border-color: #303344;
+  }
+}

@@ -1,0 +1,5 @@
+minimumReleaseAgeExclude:
+  - '@types/node@24.19.2'
+allowBuilds:
+  '@parcel/watcher': false
+  unrs-resolver: true

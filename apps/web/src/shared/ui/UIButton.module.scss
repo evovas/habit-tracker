@@ -1,0 +1,92 @@
+@use "@/shared/ui/styles/typography" as typo;
+
+.button {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+
+  padding: 14px 18px;
+  border-radius: 12px;
+
+  @include typo.body-m-regular;
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+  }
+
+  &:disabled {
+    cursor: auto;
+    opacity: 0.5;
+  }
+}
+
+.primary {
+  border: 1px solid var(--primary-color);
+  color: var(--white);
+  background-color: var(--primary-color);
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    border-color: var(--primary-hover-color);
+    background-color: var(--primary-hover-color);
+  }
+
+  &:active:not(:disabled) {
+    border-color: var(--primary-active-color);
+    background-color: var(--primary-active-color);
+  }
+}
+
+.secondary {
+  border: 1px solid var(--border-color);
+  color: var(--content-color);
+  background-color: var(--card-background-color);
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    border-color: var(--border-hover-color);
+    color: var(--primary-hover-color);
+  }
+
+  &:active:not(:disabled) {
+    border-color: var(--border-active-color);
+    color: var(--primary-active-color);
+  }
+}
+
+.warning {
+  border: 1px solid var(--warning-color);
+  color: var(--white);
+  background-color: var(--warning-color);
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    border-color: var(--warning-hover-color);
+    background-color: var(--warning-hover-color);
+  }
+
+  &:active:not(:disabled) {
+    border-color: var(--warning-active-color);
+    background-color: var(--warning-active-color);
+  }
+}
+
+.ghost {
+  border: 1px solid transparent;
+  color: var(--content-color);
+  background-color: transparent;
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    color: var(--primary-hover-color);
+  }
+
+  &:active:not(:disabled) {
+    color: var(--primary-active-color);
+  }
+}
+
+.icon-only {
+  padding: 11px;
+}

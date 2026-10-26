@@ -1,0 +1,30 @@
+@use "@/shared/ui/styles/typography" as typo;
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 2px;
+}
+
+.buttons-wrapper {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.error-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  color: var(--warning-color);
+  text-align: right;
+
+  @include typo.body-xs-regular;
+}
+
+.error-text {
+  margin: 0;
+  white-space: pre-wrap;
+}

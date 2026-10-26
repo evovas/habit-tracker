@@ -1,0 +1,97 @@
+@use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include bp.tablet {
+    justify-content: space-between;
+  }
+}
+
+.text {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+
+  @include bp.tablet {
+    display: flex;
+  }
+}
+
+.title {
+  @include typo.body-s-regular;
+
+  margin: 0;
+  color: var(--content-accent-color);
+}
+
+.paragraph {
+  @include typo.body-m-regular;
+
+  margin: 0;
+}
+
+.checkin-heading {
+  margin: 0;
+
+  @include typo.heading-s-regular;
+}
+
+.checkins-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 14px;
+
+  @include bp.tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include bp.desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.checkin {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 20px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+
+  background-color: var(--card-background-color);
+
+  @include bp.tablet {
+    gap: 20px;
+    padding: 34px 20px;
+  }
+}
+
+.checkin-status {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--border-color);
+  border-radius: 9999px;
+
+  &.checked {
+    border: none;
+
+    background-color: var(--complete-color);
+    background-image: url("checkmark.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}

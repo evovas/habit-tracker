@@ -1,0 +1,93 @@
+@use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
+@use "@/shared/ui/styles/visually-hidden" as hidden;
+
+.day-summary {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+
+  padding: 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+
+  background-color: var(--card-background-color);
+
+  @include bp.tablet {
+    padding: 22px;
+  }
+}
+
+.day-summary-counter {
+  @include typo.body-m-bold;
+
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 82px;
+  height: 82px;
+  border: 10px solid var(--complete-color);
+  border-radius: 9999px;
+
+  text-align: center;
+
+  @include bp.tablet {
+    width: 104px;
+    height: 104px;
+  }
+}
+
+.day-summary-counter-text {
+  display: none;
+  color: var(--content-accent-color);
+
+  @include typo.micro-regular;
+
+  @include bp.tablet {
+    display: inline;
+  }
+}
+
+.day-summary-text {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 100%;
+}
+
+.day-summary-title {
+  margin: 0;
+
+  @include typo.heading-m-regular;
+}
+
+.day-summary-paragraph {
+  margin: 0;
+  color: var(--content-accent-color);
+
+  @include typo.body-s-paragraph;
+}
+
+.day-summary-progress-bar-wrapper {
+  overflow: hidden;
+
+  width: 100%;
+  height: 7px;
+  border-radius: 9999px;
+
+  background-color: var(--border-color);
+}
+
+.day-summary-progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--complete-color);
+  transition: transform 0.4s ease-in-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

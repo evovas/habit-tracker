@@ -1,0 +1,61 @@
+@use "@/shared/ui/styles/visually-hidden" as hidden;
+@use "@/shared/ui/styles/typography" as typo;
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.legend {
+  margin-bottom: 10px;
+
+  @include typo.body-s-regular;
+}
+
+.options {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.option {
+  cursor: pointer;
+
+  display: inline-flex;
+  justify-content: center;
+
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+
+  text-align: center;
+
+  @include typo.body-s-regular;
+
+  &:has(input:disabled) {
+    cursor: auto;
+    opacity: 0.5;
+  }
+
+  &:hover:not(:has(input:disabled)),
+  &:has(input:focus-visible) {
+    border-color: var(--primary-color);
+  }
+
+  &:has(input:focus-visible) {
+    color: var(--primary-color);
+  }
+
+  &:has(input:checked) {
+    border-color: var(--primary-color);
+    background-color: var(--primary-accent-color);
+
+    @include typo.body-s-semibold;
+  }
+}
+
+.radio {
+  @include hidden.visually-hidden;
+}
