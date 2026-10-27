@@ -23,6 +23,7 @@ export const habitApi = {
     zHabit,
     await apiClient.patch(`${HABIT_API_PATH}/${id}`, data),
   ),
-  delete: (id: Habit['id']): Promise<void> =>
-    apiClient.delete(`${HABIT_API_PATH}/${id}`),
+  delete: async (id: Habit['id']): Promise<void> => {
+    await apiClient.delete(`${HABIT_API_PATH}/${id}`);
+  },
 };

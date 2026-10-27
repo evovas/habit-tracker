@@ -1,8 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { clsx } from 'clsx';
 import { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 
-import { checkIsExistsCheckin, useCheckinsMockStore } from '@/entities/checkin';
+import type { CheckinEntry } from '@/entities/checkin';
+import {
+  checkinErrorMessageVocabulary,
+  checkinQueryOptions,
+  checkIsExistsCheckin,
+} from '@/entities/checkin';
 import type { Habit } from '@/entities/habit';
 import {
   habitErrorMessageVocabulary,
@@ -33,12 +39,14 @@ import { DaySummary } from './DaySummary.tsx';
 import s from './PageToday.module.scss';
 
 const EMPTY_HABITS: Habit[] = [] as const;
+const EMPTY_CHECKINS: CheckinEntry[] = [] as const;
 
 export const PageToday = () => {
   const today = formatToISODate(dayjs());
   const [activeDate, setActiveDate] = useState(today);
   const [firstDayOfActiveWeek, setFirstDayOfActiveWeek]
     = useState(() => getISOStartOfWeek(today));
+  const weekEndOfActiveWeek = offsetDate(firstDayOfActiveWeek, 6);
 
   const handleWeekChange = (weekStart: string) => {
     setFirstDayOfActiveWeek(weekStart);
@@ -48,20 +56,31 @@ export const PageToday = () => {
 
   const {
     data: habits,
-    isPending,
-    isError,
-    error,
-    isSuccess,
-    refetch,
+    isPending: isPendingHabits,
+    isError: isErrorHabits,
+    error: habitsError,
+    isSuccess: isSuccessHabits,
+    refetch: refetchHabits,
   } = useQuery(habitQueryOptions.list());
-  const checkins = useCheckinsMockStore((state) => state.items);
+
+  const {
+    data: checkins,
+    isPending: isPendingCheckins,
+    isError: isErrorCheckins,
+    error: checkinsError,
+    isSuccess: isSuccessCheckins,
+    refetch: refetchCheckins,
+  } = useQuery(checkinQueryOptions.list(
+    firstDayOfActiveWeek,
+    weekEndOfActiveWeek < today ? weekEndOfActiveWeek : undefined,
+  ));
 
   const activeDayHabits = habits
     ? filterHabitsForDate(habits, activeDate)
     : [];
   const activeDayStatus = getStatusForHabits(
     activeDayHabits,
-    checkins,
+    checkins ?? EMPTY_CHECKINS,
     activeDate,
   );
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -73,16 +92,27 @@ export const PageToday = () => {
     <UICard
       className={s.checkin}
       as="span"
+      shadowOnHover={!isErrorCheckins && !isPendingCheckins}
     >
       <HabitItem habit={habit} compact>
         Streak 4
       </HabitItem>
-      <span
-        className={clsx(
-          s.checkinStatus,
-          isChecked && s.checked,
-        )}
-      />
+      {isPendingCheckins && (
+        <Skeleton
+          className={clsx(s.checkinStatus, s.loading)}
+          width={29}
+          height={29}
+          circle
+        />
+      )}
+      {isSuccessCheckins && (
+        <span
+          className={clsx(
+            s.checkinStatus,
+            isChecked && s.checked,
+          )}
+        />
+      )}
     </UICard>
   );
 
@@ -109,20 +139,45 @@ export const PageToday = () => {
         activeDate={activeDate}
         onDateChange={setActiveDate}
         habits={habits ?? EMPTY_HABITS}
-        checkins={checkins}
+        checkins={checkins ?? EMPTY_CHECKINS}
       />
 
       {activeDayHabits.length > 0 && (
         <DaySummary
           total={activeDayHabits.length}
           done={Object.values(activeDayStatus).filter(Boolean).length}
+          loading={isPendingCheckins}
+          error={isErrorCheckins}
         />
       )}
 
       <div>
-        <h3 className={s.checkinHeading}>Day Summary</h3>
+        <div className={s.checkinHeadingWrapper}>
+          <h3 className={s.checkinHeading}>
+            Day Summary
+          </h3>
+          {isErrorCheckins && (
+            <div className={s.checkinsError} role="alert">
+              <HugeIcon icon={icons.alert} />
+              {getUserErrorMessage(
+                checkinErrorMessageVocabulary,
+                checkinsError,
+              )}
+              <button
+                type="button"
+                className={s.errorRetryButton}
+                onClick={() => {
+                  void refetchCheckins();
+                }}
+              >
+                <HugeIcon icon={icons.retry} size={12} />
+                Retry
+              </button>
+            </div>
+          )}
+        </div>
         <div className={s.checkinsWrapper}>
-          {isPending && (
+          {isPendingHabits && (
             Array.from({ length: 3 }, (_, index) => (
               <UICard
                 key={index}
@@ -131,21 +186,24 @@ export const PageToday = () => {
                 shadowOnHover={false}
               >
                 <HabitItemSkeleton compact />
-                <span
-                  className={s.checkinStatus}
+                <Skeleton
+                  className={clsx(s.checkinStatus, s.loading)}
+                  width={29}
+                  height={29}
+                  circle
                 />
               </UICard>
             ))
           )}
-          {isError && (
+          {isErrorHabits && (
             <div className={s.habitsError} role="alert">
               <HugeIcon icon={icons.alert} />
-              {getUserErrorMessage(habitErrorMessageVocabulary, error)}
+              {getUserErrorMessage(habitErrorMessageVocabulary, habitsError)}
               <button
                 type="button"
                 className={s.errorRetryButton}
                 onClick={() => {
-                  void refetch();
+                  void refetchHabits();
                 }}
               >
                 <HugeIcon icon={icons.retry} size={12} />
@@ -153,16 +211,17 @@ export const PageToday = () => {
               </button>
             </div>
           )}
-          {isSuccess && (
+          {isSuccessHabits && (
             activeDayHabits.map((habit) => (
               <SingleCheckin
                 habitId={habit.id}
                 checked={checkIsExistsCheckin(
-                  checkins,
+                  checkins ?? EMPTY_CHECKINS,
                   habit.id,
                   activeDate,
                 )}
                 date={activeDate}
+                disabled={isErrorCheckins || isPendingCheckins}
                 key={habit.id}
               >
                 {

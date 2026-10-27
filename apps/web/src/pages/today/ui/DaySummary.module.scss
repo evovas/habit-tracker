@@ -24,6 +24,10 @@
 
   text-align: center;
 
+  &.error {
+    border-color: var(--warning-color);
+  }
+
   @include bp.tablet {
     width: 104px;
     height: 104px;

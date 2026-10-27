@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 
-import { useCheckinsMockStore } from '@/entities/checkin';
 import type { Habit } from '@/entities/habit';
 
+import { useToggleCheckin } from '../model/useToggleCheckin.ts';
 import s from './SingleCheckin.module.scss';
 
 interface SingleCheckinProps {
@@ -11,6 +11,7 @@ interface SingleCheckinProps {
   habitId: Habit['id'];
   date: string;
   className?: string;
+  disabled?: boolean;
   children: ({ checked }: { checked: boolean }) => ReactNode;
 }
 
@@ -19,23 +20,24 @@ export const SingleCheckin = ({
   habitId,
   date,
   className,
+  disabled = false,
   children,
 }: SingleCheckinProps) => {
-  const createCheckin = useCheckinsMockStore((state) => state.create);
-  const deleteCheckin = useCheckinsMockStore((state) => state.delete);
+  const { toggle } = useToggleCheckin(habitId, date);
+
   const handleClick = () => {
-    if (checked) {
-      deleteCheckin(habitId, date);
-    } else {
-      createCheckin(habitId, date);
-    }
+    toggle({
+      state: !checked,
+    });
   };
+
   return (
     <button
       type="button"
       className={clsx(s.button, className)}
       onClick={handleClick}
       aria-pressed={checked}
+      disabled={disabled}
     >
       {children({ checked })}
     </button>

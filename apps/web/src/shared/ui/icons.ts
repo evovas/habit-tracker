@@ -10,6 +10,7 @@ import {
   Menu01Icon,
   Pen01Icon,
   ReloadIcon,
+  Sad01Icon,
   Settings01Icon,
   TextIcon,
   TextNumberSignIcon,
@@ -33,6 +34,7 @@ export const icons = {
   number: TextNumberSignIcon,
   alert: Alert01Icon,
   retry: ReloadIcon,
+  sad: Sad01Icon,
 } as const;
 
 export type IconName = keyof typeof icons;
