@@ -1,0 +1,45 @@
+@use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
+
+.error-wrapper {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--warning-color);
+
+  &.row {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  &.column {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.error-text {
+  white-space: pre-wrap;
+
+  @include typo.body-xs-regular;
+
+  @include bp.tablet {
+    @include typo.body-s-regular;
+  }
+}
+
+.error-retry-button {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+
+  padding: 4px 8px;
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--warning-background-color);
+
+  @include typo.body-xs-regular;
+}

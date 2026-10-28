@@ -18,7 +18,6 @@ import {
 } from '@/entities/habit';
 import { HabitFormModal } from '@/features/edit-habit';
 import { SingleCheckin } from '@/features/toggle-checkin';
-import { getUserErrorMessage } from '@/shared/api';
 import {
   dayjs,
   formatToISODate,
@@ -30,6 +29,7 @@ import {
   HugeIcon,
   icons,
   UICard,
+  UIQueryError,
 } from '@/shared/ui';
 
 import { filterHabitsForDate } from '../model/filter-habits.ts';
@@ -74,6 +74,15 @@ export const PageToday = () => {
     firstDayOfActiveWeek,
     weekEndOfActiveWeek < today ? weekEndOfActiveWeek : undefined,
   ));
+
+  const refetch = () => {
+    if (isErrorHabits) {
+      void refetchHabits();
+    }
+    if (isErrorCheckins) {
+      void refetchCheckins();
+    }
+  };
 
   const activeDayHabits = habits
     ? filterHabitsForDate(habits, activeDate)
@@ -157,22 +166,12 @@ export const PageToday = () => {
             Day Summary
           </h3>
           {isErrorCheckins && (
-            <div className={s.checkinsError} role="alert">
-              <HugeIcon icon={icons.alert} />
-              {getUserErrorMessage(
-                checkinErrorMessageVocabulary,
-                checkinsError,
-              )}
-              <button
-                type="button"
-                className={s.errorRetryButton}
-                onClick={() => {
-                  void refetchCheckins();
-                }}
-              >
-                <HugeIcon icon={icons.retry} size={12} />
-                Retry
-              </button>
+            <div className={s.checkinsError}>
+              <UIQueryError
+                error={checkinsError}
+                vocabulary={checkinErrorMessageVocabulary}
+                onRefetch={refetch}
+              />
             </div>
           )}
         </div>
@@ -196,19 +195,13 @@ export const PageToday = () => {
             ))
           )}
           {isErrorHabits && (
-            <div className={s.habitsError} role="alert">
-              <HugeIcon icon={icons.alert} />
-              {getUserErrorMessage(habitErrorMessageVocabulary, habitsError)}
-              <button
-                type="button"
-                className={s.errorRetryButton}
-                onClick={() => {
-                  void refetchHabits();
-                }}
-              >
-                <HugeIcon icon={icons.retry} size={12} />
-                Retry
-              </button>
+            <div className={s.habitsError}>
+              <UIQueryError
+                error={habitsError}
+                vocabulary={habitErrorMessageVocabulary}
+                onRefetch={refetch}
+                variant="column"
+              />
             </div>
           )}
           {isSuccessHabits && (

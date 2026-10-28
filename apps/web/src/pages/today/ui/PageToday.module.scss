@@ -68,55 +68,19 @@
   }
 }
 
-.checkins-error,
 .habits-error {
   display: flex;
-  gap: 4px;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-
-
-  color: var(--warning-color);
-
-
-  @include typo.body-xs-regular;
-
-  @include bp.tablet {
-    @include typo.body-s-regular;
-  }
-}
-
-.checkins-error {
-  flex-direction: row;
-}
-
-.habits-error {
-  flex-direction: column;
 
   min-height: 82px;
   border: 1px dashed var(--warning-color);
   border-radius: 16px;
 
-  text-align: center;
-  white-space: pre-wrap;
-
   @include bp.tablet {
     min-height: 116px;
   }
-}
-
-.error-retry-button {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-
-  padding: 4px 8px;
-  border: none;
-  border-radius: 8px;
-
-  background-color: var(--warning-background-color);
-
-  @include typo.body-xs-regular;
 }
 
 .add-button-mobile {
