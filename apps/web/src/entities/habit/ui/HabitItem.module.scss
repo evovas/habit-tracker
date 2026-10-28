@@ -5,7 +5,10 @@
   display: flex;
   gap: 14px;
   align-items: center;
+
   width: 100%;
+
+  text-align: left;
 }
 
 .icon {
@@ -35,13 +38,19 @@
   justify-content: center;
 
   width: 100%;
+  min-width: 140px;
 }
 
 .name {
   margin: 0;
   margin-bottom: 4px;
 
-  @include typo.heading-l-regular;
+  @include typo.body-l-regular;
+
+  @include bp.desktop {
+
+    @include typo.heading-l-regular;
+  }
 
   &.compact {
     margin-bottom: 6px;

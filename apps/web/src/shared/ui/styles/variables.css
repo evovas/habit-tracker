@@ -13,6 +13,8 @@
   --border-hover-color: color-mix(in oklch, var(--border-color), var(--primary-color) 20%);
   --border-active-color: color-mix(in oklch, var(--border-color), var(--primary-color) 40%);
   --complete-color: #46c99a;
+  --complete-hover-color: color-mix(in oklch, var(--complete-color), black 10%);
+  --complete-active-color: color-mix(in oklch, var(--complete-color), black 20%);
   --warning-color: #e55757;
   --warning-background-color: rgb(229 87 87 / 0.1);
   --warning-hover-color: color-mix(in oklch, var(--warning-color), black 10%);
@@ -35,6 +37,10 @@
   :root {
     --primary-hover-color: color-mix(in oklch, var(--primary-color), white 20%);
     --primary-active-color: color-mix(in oklch, var(--primary-color), white 10%);
+    --complete-hover-color: color-mix(in oklch, var(--complete-color), white 20%);
+    --complete-active-color: color-mix(in oklch, var(--complete-color), white 10%);
+    --warning-hover-color: color-mix(in oklch, var(--warning-color), white 20%);
+    --warning-active-color: color-mix(in oklch, var(--warning-color), white 10%);
     --primary-accent-color: #232534;
     --content-color: #f6f7fb;
     --content-secondary-color: #a6a9bc;

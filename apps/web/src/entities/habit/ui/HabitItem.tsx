@@ -11,6 +11,7 @@ interface HabitItemProps {
   compact?: boolean;
   children?: ReactNode;
   titleAs?: 'h2' | 'h3' | 'span';
+  className?: string;
 }
 
 export const HabitItem = ({
@@ -18,10 +19,11 @@ export const HabitItem = ({
   compact,
   children,
   titleAs: Title = 'span',
+  className,
 }: HabitItemProps) => {
   const Wrapper = Title === 'span' ? 'span' : 'div';
   return (
-    <Wrapper className={s.habit}>
+    <Wrapper className={clsx(s.habit, className)}>
       <Wrapper className={s.icon}>
         <IconifyIcon name="hugeicons:badge-question-mark" size={21} />
       </Wrapper>

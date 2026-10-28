@@ -1,0 +1,103 @@
+@use "@/shared/ui/styles/typography" as typo;
+@use "@/shared/ui/styles/breakpoints" as bp;
+
+.habits-list {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 30px 8px;
+
+  @include bp.tablet {
+    grid-template-columns: max-content repeat(7, 1fr);
+    gap: 30px 10px;
+  }
+
+  @include bp.desktop {
+    grid-template-columns: 1fr repeat(7, 72px);
+  }
+}
+
+.habit-row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  row-gap: 8px;
+  align-items: center;
+}
+
+.habit-item {
+  grid-column: 1 / -1;
+
+  @include bp.only-tablet {
+    max-width: 250px;
+  }
+
+  @include bp.tablet {
+    grid-column: auto;
+    padding-right: 36px;
+  }
+}
+
+.checkin {
+  @include typo.caption-semibold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+
+  color: var(--content-accent-color);
+
+  background-color: var(--card-background-color);
+
+  &:hover:not(:disabled) {
+    border-color: var(--complete-hover-color);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--complete-hover-color);
+  }
+
+  &:active:not(:disabled) {
+    border-color: var(--complete-active-color);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  &.checked {
+    border-color: var(--complete-color);
+    color: var(--white);
+    background-color: var(--complete-color);
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+      border-color: var(--complete-hover-color);
+      background-color: var(--complete-hover-color);
+    }
+
+    &:active:not(:disabled) {
+      border-color: var(--complete-active-color);
+      background-color: var(--complete-active-color);
+    }
+  }
+}
+
+.checkin-skeleton {
+  height: 41px;
+
+  @include bp.desktop {
+    height: 57px;
+  }
+}
+
+.day {
+  width: 100%;
+  padding: 12px 0;
+
+  @include bp.desktop {
+    padding: 20px 0;
+  }
+}

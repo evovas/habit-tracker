@@ -12,7 +12,8 @@ interface SingleCheckinProps {
   date: string;
   className?: string;
   disabled?: boolean;
-  children: ({ checked }: { checked: boolean }) => ReactNode;
+  ariaLabel?: string;
+  children: (({ checked }: { checked: boolean }) => ReactNode) | ReactNode;
 }
 
 export const SingleCheckin = ({
@@ -21,6 +22,7 @@ export const SingleCheckin = ({
   date,
   className,
   disabled = false,
+  ariaLabel,
   children,
 }: SingleCheckinProps) => {
   const { toggle } = useToggleCheckin(habitId, date);
@@ -37,9 +39,10 @@ export const SingleCheckin = ({
       className={clsx(s.button, className)}
       onClick={handleClick}
       aria-pressed={checked}
+      aria-label={ariaLabel}
       disabled={disabled}
     >
-      {children({ checked })}
+      {typeof children === 'function' ? children({ checked }) : children}
     </button>
   );
 };
