@@ -13,6 +13,7 @@ export const AppHeader = ({ onShowMenuClick }: AppHeaderProps) => {
     <div className={s.header}>
       <UIButton
         text="Show menu"
+        variant="secondary"
         icon="menu"
         iconOnly
         className={s.menuButton}
