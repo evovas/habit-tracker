@@ -4,6 +4,7 @@ export { IconifyIcon } from './IconifyIcon.tsx';
 export { type IconName, icons, sidebarIcons } from './icons.ts';
 export { UIButton } from './UIButton.tsx';
 export { UICard } from './UICard.tsx';
+export { UIConfirmationModal } from './UIConfirmationModal.tsx';
 export { UIModal } from './UIModal.tsx';
 export { UIQueryError } from './UIQueryError.tsx';
 export { UITextInput } from './UITextInput.tsx';

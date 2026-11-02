@@ -9,7 +9,8 @@ import s from './UIQueryError.module.scss';
 interface UIQueryErrorProps {
   error: AppError;
   vocabulary: Partial<Record<string, string>>;
-  onRefetch: () => void;
+  actionRetryButton?: string;
+  onRetryAction: () => void;
   variant?: 'row' | 'column';
   className?: string;
 }
@@ -17,7 +18,8 @@ interface UIQueryErrorProps {
 export const UIQueryError = ({
   error,
   vocabulary,
-  onRefetch,
+  actionRetryButton = 'Retry',
+  onRetryAction,
   variant = 'row',
   className,
 }: UIQueryErrorProps) => (
@@ -36,10 +38,10 @@ export const UIQueryError = ({
     <button
       type="button"
       className={s.errorRetryButton}
-      onClick={onRefetch}
+      onClick={onRetryAction}
     >
-      <HugeIcon icon={icons.retry} size={12} />
-      Retry
+      {actionRetryButton === 'Retry' && <HugeIcon icon={icons.retry} size={12} />}
+      { actionRetryButton }
     </button>
   </div>
 );

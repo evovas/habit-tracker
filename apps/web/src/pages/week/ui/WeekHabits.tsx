@@ -114,7 +114,7 @@ export const WeekHabits = ({
           <UIQueryError
             error={queryError.error}
             vocabulary={queryError.vocabulary}
-            onRefetch={refetch}
+            onRetryAction={refetch}
           />
         )}
       </div>

@@ -27,7 +27,7 @@ export const HabitFormModal = ({
       title={habit?.id ? 'Edit habit' : 'Add a new habit'}
       closable={!isPending}
       description={habit?.id ? undefined : 'Create a routine now—you can edit these details anytime.'}
-      className={s.formModal}
+      containerClassName={s.formModal}
       onClose={onClose}
     >
       {({ close }) => (

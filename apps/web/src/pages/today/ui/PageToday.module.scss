@@ -83,14 +83,6 @@
   }
 }
 
-.add-button-mobile {
-  display: inline-flex;
-
-  @include bp.tablet {
-    display: none;
-  }
-}
-
 .add-button {
   display: flex;
   flex-direction: row;
@@ -107,7 +99,6 @@
   @include typo.body-s-regular;
 
   @include bp.tablet {
-    display: flex;
     flex-direction: column;
     min-height: 116px;
   }
@@ -122,6 +113,11 @@
   border-radius: 9999px;
 
   background-color: var(--primary-accent-color);
+}
+
+.checkin-wrapper {
+  display: block;
+  padding: 0;
 }
 
 .checkin {

@@ -35,12 +35,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary-hover-color: color-mix(in oklch, var(--primary-color), white 20%);
-    --primary-active-color: color-mix(in oklch, var(--primary-color), white 10%);
-    --complete-hover-color: color-mix(in oklch, var(--complete-color), white 20%);
-    --complete-active-color: color-mix(in oklch, var(--complete-color), white 10%);
-    --warning-hover-color: color-mix(in oklch, var(--warning-color), white 20%);
-    --warning-active-color: color-mix(in oklch, var(--warning-color), white 10%);
+    --primary-hover-color: color-mix(in oklch, var(--primary-color), white 10%);
+    --primary-active-color: color-mix(in oklch, var(--primary-color), white 20%);
+    --complete-hover-color: color-mix(in oklch, var(--complete-color), white 10%);
+    --complete-active-color: color-mix(in oklch, var(--complete-color), white 20%);
+    --warning-hover-color: color-mix(in oklch, var(--warning-color), white 10%);
+    --warning-active-color: color-mix(in oklch, var(--warning-color), white 20%);
     --primary-accent-color: #232534;
     --content-color: #f6f7fb;
     --content-secondary-color: #a6a9bc;

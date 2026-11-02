@@ -99,6 +99,7 @@ export const PageToday = () => {
     isChecked: boolean,
   ) => (
     <UICard
+      containerClassName={s.checkinWrapper}
       className={s.checkin}
       as="span"
       shadowOnHover={!isErrorCheckins && !isPendingCheckins}
@@ -170,7 +171,7 @@ export const PageToday = () => {
               <UIQueryError
                 error={checkinsError}
                 vocabulary={checkinErrorMessageVocabulary}
-                onRefetch={refetch}
+                onRetryAction={refetch}
               />
             </div>
           )}
@@ -199,7 +200,7 @@ export const PageToday = () => {
               <UIQueryError
                 error={habitsError}
                 vocabulary={habitErrorMessageVocabulary}
-                onRefetch={refetch}
+                onRetryAction={refetch}
                 variant="column"
               />
             </div>

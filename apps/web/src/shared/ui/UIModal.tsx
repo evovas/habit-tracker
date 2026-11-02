@@ -17,6 +17,7 @@ interface UIModalProps {
   title?: string;
   description?: string;
   children?: ReactNode | ((modal: ModalApi) => ReactNode);
+  containerClassName?: string;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export const UIModal = ({
   title,
   description,
   children,
+  containerClassName,
   className,
 }: UIModalProps) => {
   const [dialog, setDialog] = useState<HTMLDialogElement | null>(null);
@@ -56,7 +58,7 @@ export const UIModal = ({
   return (
     <dialog
       ref={setDialog}
-      className={s.modal}
+      className={clsx(s.modal, containerClassName)}
       aria-labelledby={title ? titleId : undefined}
       aria-describedby={description ? descriptionId : undefined}
       onClose={onClose}
