@@ -1,0 +1,25 @@
+.page-habit {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.error-wrapper {
+  margin: 0 auto;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.button {
+  flex-shrink: 0;
+}

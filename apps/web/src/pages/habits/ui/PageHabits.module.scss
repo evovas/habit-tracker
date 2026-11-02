@@ -1,0 +1,81 @@
+@use "@/shared/ui/styles/breakpoints" as bp;
+@use "@/shared/ui/styles/typography" as typo;
+
+.page-habits {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-items: stretch;
+  justify-content: space-between;
+
+  @include bp.tablet {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.header-title {
+  @include typo.heading-l-regular;
+
+  margin: 0;
+}
+
+.header-description {
+  @include typo.body-s-regular;
+
+  margin: 0;
+  color: var(--content-accent-color);
+}
+
+.habit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @include bp.desktop {
+    gap: 22px;
+  }
+}
+
+.habit-item {
+  display: flex;
+}
+
+.habits-empty,
+.habits-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 80px;
+  border: 1px dashed var(--primary-color);
+  border-radius: 16px;
+
+  @include bp.tablet {
+    min-height: 94px;
+  }
+}
+
+.habits-empty {
+  color: var(--primary-color);
+  text-align: center;
+
+  @include typo.body-s-regular;
+}
+
+.habits-error {
+  border-color: var(--warning-color);
+}

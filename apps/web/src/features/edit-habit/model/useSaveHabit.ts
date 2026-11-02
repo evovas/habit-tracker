@@ -69,6 +69,10 @@ export const useSaveHabit = (): UseSaveHabitResult => {
           },
         );
       }
+      queryClient.setQueryData(
+        habitQueryOptions.item(data.id).queryKey,
+        data,
+      );
     },
   });
 

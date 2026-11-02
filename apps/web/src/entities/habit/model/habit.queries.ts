@@ -4,7 +4,7 @@ import { habitApi } from '../api/habit.api.ts';
 import { habitErrorMessageVocabulary } from './habit.errors.ts';
 import type { Habit } from './habit.types.ts';
 
-const HABIT_QUERY_KEYS = {
+export const HABIT_QUERY_KEYS = {
   root: ['habit'] as const,
   list: () => [...HABIT_QUERY_KEYS.root, 'list'] as const,
   item: (id: Habit['id']) => [...HABIT_QUERY_KEYS.root, 'item', id] as const,
