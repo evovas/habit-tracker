@@ -22,7 +22,7 @@ export const routes: RouteObject[] = [
         Component: PageToday,
         path: Route.TODAY,
         handle: {
-          title: () => `${getGreeting()}, username`,
+          title: () => `${getGreeting()}!`,
         },
       },
       {

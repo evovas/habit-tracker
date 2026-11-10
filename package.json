@@ -1,7 +1,8 @@
 {
   "name": "habit-tracker",
+  "license": "0BSD",
   "private": true,
-  "packageManager": "pnpm@12.15.0",
+  "packageManager": "pnpm@12.18.0",
   "scripts": {
     "dev": "pnpm --parallel --filter \"./apps/*\" dev",
     "dev:api": "pnpm --filter ./apps/api dev",

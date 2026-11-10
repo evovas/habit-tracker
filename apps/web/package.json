@@ -1,13 +1,14 @@
 {
-  "name": "front-habit-tracker-react",
+  "name": "@habit-tracker/web",
+  "version": "1.0.0",
+  "license": "0BSD",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "type-check": "tsc -b",
-    "preview": "vite preview",
+    "preview": "vite preview --port 5173",
     "oxlint": "oxlint",
     "oxlint:fix": "oxlint --fix",
     "eslint": "eslint . --max-warnings 0",
